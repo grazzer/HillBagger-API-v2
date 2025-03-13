@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { getDirection } = require("../middleware/filterDirection");
-const { getSearch } = require("../middleware/FilterSearch"); // weird capitalization bug ??
+const { getSearch } = require("../middleware/filterSearch");
 const { getClassification } = require("../middleware/filterClassification");
 const { createFindQuery } = require("../middleware/createFindQuery");
 const { searchHills } = require("../services/hillsService");
