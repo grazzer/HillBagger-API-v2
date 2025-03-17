@@ -19,4 +19,4 @@ function createFindQuery(req, res, next) {
   return;
 }
 
-module.exports = { createFindQuery };
+export { createFindQuery };

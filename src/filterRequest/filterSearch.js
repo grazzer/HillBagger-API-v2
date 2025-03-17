@@ -21,4 +21,4 @@ function getSearch(req, res, next) {
   return;
 }
 
-module.exports = { getSearch };
+export { getSearch };

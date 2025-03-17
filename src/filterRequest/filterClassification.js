@@ -25,7 +25,7 @@ function getClassification(req, res, next) {
   return;
 }
 
-module.exports = { getClassification };
+export { getClassification };
 
 // Classification codes
 // Ma	Marilyn

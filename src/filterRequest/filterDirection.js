@@ -44,4 +44,4 @@ function getDirection(req, res, next) {
   return;
 }
 
-module.exports = { getDirection };
+export { getDirection };

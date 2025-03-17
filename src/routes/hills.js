@@ -1,10 +1,11 @@
-const router = require("express").Router();
-const { getDirection } = require("../middleware/filterDirection");
-const { getSearch } = require("../middleware/filterSearch");
-const { getClassification } = require("../middleware/filterClassification");
-const { createFindQuery } = require("../middleware/createFindQuery");
-const { searchHills } = require("../services/hillsService");
+import express from "express";
+import { getDirection } from "../filterRequest/filterDirection.js";
+import { getSearch } from "../filterRequest/filterSearch.js";
+import { getClassification } from "../filterRequest/filterClassification.js";
+import { createFindQuery } from "../filterRequest/createFindQuery.js";
+import { searchHills } from "../services/hillsService.js";
 
+const router = express.Router();
 router.use(getDirection);
 router.use(getSearch);
 router.use(getClassification);
@@ -25,4 +26,4 @@ router.get("/hills", (req, res, next) => {
     });
 });
 
-module.exports = router;
+export { router };

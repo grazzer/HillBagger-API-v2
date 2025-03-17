@@ -1,5 +1,4 @@
-const express = require("express");
-const { connectToDb, getDb } = require("../db");
+import { connectToDb, getDb } from "../db.js";
 
 // TODO: Move db connection
 let db;
@@ -36,4 +35,4 @@ function searchHills(findQuery, direction, pageNum, itemsPerPage) {
   });
 }
 
-module.exports = { searchHills };
+export { searchHills };
