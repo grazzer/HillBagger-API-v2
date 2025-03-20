@@ -14,10 +14,8 @@ function main(whereQuery, orderQuery, skip, take) {
         return yield prisma.hills.findMany({
             skip: skip,
             take: take,
+            orderBy: orderQuery,
             where: whereQuery,
-            // orderBy: {
-            //   title: "desc",
-            // },
         });
     });
 }

@@ -4,12 +4,10 @@ const prisma = new PrismaClient();
 
 async function main(
   whereQuery: any,
-  //                  OR: [{Name: {contains: 'Ben',},},{ County: { contains: 'Ben' } },]
   orderQuery: any,
   skip: number,
   take: number
 ) {
-  console.log(whereQuery);
   return await prisma.hills.findMany({
     skip: skip,
     take: take,

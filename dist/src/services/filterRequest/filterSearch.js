@@ -3,9 +3,9 @@ function getSearch(SearchQuery) {
         const searchString = SearchQuery.replace(/\s/g, "");
         if (/^[A-Za-z]+$/.test(searchString)) {
             return {
-                $or: [
-                    { Name: { $regex: SearchQuery } },
-                    { County: { $regex: SearchQuery } },
+                OR: [
+                    { Name: { contains: SearchQuery } },
+                    { County: { contains: SearchQuery } },
                 ],
             };
         }
