@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model hills {
+  id                      String  @id @default(auto()) @map("_id") @db.ObjectId
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // 0 Int @map("0")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // 1 Int @map("1")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // 2 Int @map("2")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // 3 Int @map("3")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // 4 Int @map("4")
+  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
+  // 5 Int @map("5")
+  A                       Int
+  Area                    String?
+  B                       Int
+  BL                      Int
+  Bg                      Int
+  Bin                     Int
+  C                       Int
+  CT                      Int
+  Ca                      Int
+  /// Multiple data types found: String: 49.3%, Int: 50.7% out of 1000 sampled entries
+  Classification          Json
+  Cm                      Int
+  CoA                     Int
+  CoA_                    Int     @map("CoA=")
+  CoH                     Int
+  CoH_                    Int     @map("CoH=")
+  CoL                     Int
+  CoL_                    Int     @map("CoL=")
+  CoU                     Int
+  CoU_                    Int     @map("CoU=")
+  Col_grid_ref            String  @map("Col grid ref")
+  /// Multiple data types found: Float: 12.7%, Int: 87.3% out of 1000 sampled entries
+  Col_height              Json    @map("Col height")
+  Comments                String?
+  Country                 String
+  County                  String
+  County_Top              String? @map("County Top")
+  D                       Int
+  DDew                    Int
+  DT                      Int
+  Dew                     Int
+  Dil                     Int
+  /// Multiple data types found: Float: 12.1%, Int: 87.9% out of 1000 sampled entries
+  Drop                    Json
+  F                       Int
+  Feature                 String?
+  Feet                    Int
+  Fel                     Int
+  G                       Int
+  GT                      Int
+  Geograph                String
+  Grid_ref                String  @map("Grid ref")
+  Grid_ref_10             String? @map("Grid ref 10")
+  GridrefXY               String
+  HF                      Int
+  Hew                     Int
+  Hill_bagging            String  @map("Hill-bagging")
+  Hu                      Int
+  Hu_                     Int     @map("Hu=")
+  Island                  String?
+  Latitude                Float
+  Longitude               Float
+  M                       Int
+  MT                      Int
+  MVNumber                Int?
+  Ma                      Int
+  Ma_                     Int     @map("Ma=")
+  /// Multiple data types found: String: 67.7%, Int: 32.3% out of 935 sampled entries
+  Map_1_25k               Json?   @map("Map 1:25k")
+  /// Multiple data types found: String: 16.3%, Int: 83.7% out of 998 sampled entries
+  Map_1_50k               Json?   @map("Map 1:50k")
+  /// Multiple data types found: Float: 17.2%, Int: 82.8% out of 1000 sampled entries
+  Metres                  Json
+  Mur                     Int
+  N                       Int
+  Name                    String
+  Number                  Int
+  O                       Int
+  Observations            String?
+  Parent__Ma_             Int     @map("Parent (Ma)")
+  Parent__SMC_            Int?    @map("Parent (SMC)")
+  Parent_name__Ma_        String? @map("Parent name (Ma)")
+  Parent_name__SMC_       String? @map("Parent name (SMC)")
+  Region                  String
+  Revision                String
+  SIB                     Int
+  /// Multiple data types found: String: 82.6%, Int: 17.4% out of 1000 sampled entries
+  Section                 Json
+  Sim                     Int
+  Streetmap_MountainViews String? @map("Streetmap/MountainViews")
+  Survey                  String?
+  Sy                      Int
+  T100                    Int
+  Topo_Section            String? @map("Topo Section")
+  Tu                      Int
+  Un                      Int
+  VL                      Int
+  W                       Int
+  WO                      Int
+  Xcoord                  Int
+  Y                       Int
+  Ycoord                  Int
+  /// Multiple data types found: Float: 82.7%, Int: 17.3% out of 1000 sampled entries
+  ///Section                 Json    @map("_Section")
+  s4                      Int
+  s5                      Int
+  sHu                     Int
+  sMa                     Int
+  sSim                    Int
+  xC                      Int
+  xDT                     Int
+  xG                      Int
+  xMT                     Int
+  xN                      Int
+}

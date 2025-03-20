@@ -2,9 +2,9 @@ import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 dotenv.config();
 
-let dbConnection;
+let dbConnection: any;
 
-function connectToDb(cb) {
+function connectToDb(cb: any) {
   MongoClient.connect(process.env.MongoDB_URI)
     .then((client) => {
       dbConnection = client.db("hills");

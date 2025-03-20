@@ -1,28 +1,27 @@
-function getClassification(req, res, next) {
-  switch (req.query.c) {
+function getClassification(classificationQuery: any) {
+  let classification: any = {};
+  switch (classificationQuery) {
     case "marilyn":
-      req.query.classification = { Ma: 1 };
+      classification = { Ma: 1 };
       break;
     case "hump":
-      req.query.classification = { Hu: 1 };
+      classification = { Hu: 1 };
       break;
     case "simm":
-      req.query.classification = { Sim: 1 };
+      classification = { Sim: 1 };
       break;
     case "dodd":
-      req.query.classification = { 5: 1 };
+      classification = { 5: 1 };
       break;
     case "munro":
-      req.query.classification = { M: 1 };
+      classification = { M: 1 };
       break;
     case "all":
       break;
     default:
       break;
   }
-
-  next();
-  return;
+  return classification;
 }
 
 export { getClassification };
