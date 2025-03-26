@@ -1,4 +1,4 @@
-import { main, prisma } from "../DataBase/hillsDb.js";
+import { main, prisma } from "../dataBase/hillsDb.js";
 import { getSearch } from "./filterRequest/filterSearch.js";
 import { getDirection } from "./filterRequest/filterDirection.js";
 import { getClassification } from "./filterRequest/filterClassification.js";

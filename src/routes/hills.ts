@@ -3,9 +3,9 @@ import { searchHills } from "../services/hillsService.js";
 
 const router = express.Router();
 
-router.get("/hills", (req, res, next) => {
+router.get("/hills/:classification", (req, res, next) => {
   searchHills(
-    req.query.c, // classification
+    req.params.classification, // classification
     req.query.s, // search
     req.query.d, // direction
     req.query.p, // pagination
