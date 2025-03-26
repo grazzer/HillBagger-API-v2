@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { main, prisma } from "../DataBase/hillsDb.js";
+import { main, prisma } from "../dataBase/hillsDb.js";
 import { getSearch } from "./filterRequest/filterSearch.js";
 import { getDirection } from "./filterRequest/filterDirection.js";
 import { getClassification } from "./filterRequest/filterClassification.js";
