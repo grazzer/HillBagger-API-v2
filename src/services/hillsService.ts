@@ -9,7 +9,7 @@ function searchHills(
   classificationQuery: any,
   searchQuery: any,
   directionQuery: any,
-  pageNum: any,
+  pageNum: string,
   itemsPerPage: number
 ) {
   const _classificationQuery = getClassification(classificationQuery);
@@ -17,7 +17,7 @@ function searchHills(
   const findQuery = createFindQuery(_searchQuery, _classificationQuery);
 
   const _directionQuery = getDirection(directionQuery) || { Number: "asc" };
-  const _page = pageNum || 0;
+  const _page = parseInt(pageNum) || 0;
 
   return new Promise((resolve, reject) => {
     main(findQuery, _directionQuery, _page, itemsPerPage)
