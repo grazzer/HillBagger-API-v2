@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
+    "dev": "tsx watch ./server.ts",
     "build": "prisma generate && tsc",
     "test": "jest"
   },
