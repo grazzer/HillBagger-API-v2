@@ -1,6 +1,29 @@
-function getClassification(classificationQuery: any) {
+function getClassification(classificationQuery: string) {
   let classification: any = {};
   switch (classificationQuery) {
+    // search by country
+    case "scotland":
+      classification = { Country: "S" };
+      break;
+    case "england":
+      classification = { Country: "E" };
+      break;
+    case "wales":
+      classification = { Country: "W" };
+      break;
+    case "ireland":
+      classification = { Country: "I" };
+      break;
+    case "isle_of_Man":
+      classification = { Country: "M" };
+      break;
+    case "channel_islands":
+      classification = { Country: "C" };
+      break;
+    case "england_scotland_border":
+      classification = { Country: "ES" };
+      break;
+    // search by classification
     case "marilyn":
       classification = { Ma: 1 };
       break;
@@ -11,10 +34,109 @@ function getClassification(classificationQuery: any) {
       classification = { Sim: 1 };
       break;
     case "dodd":
-      classification = { 5: 1 };
+      classification = { Dod: 1 };
       break;
     case "munro":
       classification = { M: 1 };
+      break;
+    case "munro_top":
+      classification = { MT: 1 };
+      break;
+    case "furth":
+      classification = { F: 1 };
+      break;
+    case "corbett":
+      classification = { C: 1 };
+      break;
+    case "graham":
+      classification = { G: 1 };
+      break;
+    case "donald":
+      classification = { D: 1 };
+      break;
+    case "donald_top":
+      classification = { DT: 1 };
+      break;
+    case "hewitt":
+      classification = { Hew: 1 };
+      break;
+    case "nuttall":
+      classification = { N: 1 };
+      break;
+    case "dewey":
+      classification = { Dew: 1 };
+      break;
+    case "donald_dewey":
+      classification = { DDew: 1 };
+      break;
+    case "highland_five":
+      classification = { HF: 1 };
+      break;
+    case "wainwright":
+      classification = { W: 1 };
+      break;
+    case "wainwright_outlying":
+      classification = { WO: 1 };
+      break;
+    case "birkett":
+      classification = { B: 1 };
+      break;
+    case "synge":
+      classification = { Sy: 1 };
+      break;
+    case "fellranger":
+      classification = { Fel: 1 };
+      break;
+    // case "ethel":
+    //   classification = { E: 1 };
+    //   break;
+    case "county_top":
+      classification = { CoU: 1 };
+      break;
+    case "islands_of_britain":
+      classification = { SIB: 1 };
+      break;
+    case "dillon":
+      classification = { Dil: 1 };
+      break;
+    case "arderin":
+      classification = { A: 1 };
+      break;
+    case "vandeleur-lynam":
+      classification = { VL: 1 };
+      break;
+    case "other":
+      classification = { O: 1 };
+      break;
+    case "unclassified":
+      classification = { Un: 1 };
+      break;
+    case "trump":
+      classification = { Tu: 1 };
+      break;
+    case "murdo":
+      classification = { Mur: 1 };
+      break;
+    case "corbett_top":
+      classification = { CT: 1 };
+      break;
+    case "graham_top":
+      classification = { GT: 1 };
+      break;
+    case "bridge":
+      classification = { Bg: 1 };
+      break;
+    case "yeaman":
+      classification = { Y: 1 };
+      break;
+    case "clem":
+      classification = { Cm: 1 };
+      break;
+    case "carn":
+      classification = { Ca: 1 };
+      break;
+    case "binnion":
+      classification = { Bin: 1 };
       break;
     case "all":
       break;
@@ -25,62 +147,3 @@ function getClassification(classificationQuery: any) {
 }
 
 export { getClassification };
-
-// Classification codes
-// Ma	Marilyn
-// Hu	Hump
-// Sim	Simm
-// 5	Dodd
-// M	Munro
-// MT	Munro Top
-// F	Furth
-// C	Corbett
-// G	Graham
-// D	Donald
-// DT	Donald Top
-// Hew	Hewitt
-// N	Nuttall
-// Dew	Dewey
-// DDew	Donald Dewey
-// HF	Highland Five
-// 4	400-499m Tump
-// 3	300-399m Tump (GB)
-// 2	200-299m Tump (GB)
-// 1	100-199m Tump (GB)
-// 0	0-99m Tump (GB)
-// W	Wainwright
-// WO	Wainwright Outlying Fell
-// B	Birkett
-// Sy	Synge
-// Fel	Fellranger
-// E	Ethel
-// CoH	County Top – Historic (pre-1974)
-// CoA	County Top – Administrative (1974 to mid-1990s)
-// CoU	County Top – Current County or Unitary Authority
-// CoL	County Top – Current London Borough
-// SIB	Significant Island of Britain
-// Dil	Dillon
-// A	Arderin
-// VL	Vandeleur-Lynam
-// O	Other list
-// Un	unclassified
-// prefixes
-// s	sub
-// x	deleted
-// suffixes
-// =	twin
-// We identify deletions only for SMC lists, Grahams and Nuttalls. See Deleted Tops and Subs for details of these categories.
-
-// Other searchable categories not shown in the classification field are as follows:
-
-// Tu	Tump
-// Mur	Murdo
-// CT	Corbett Top
-// GT	Graham Top
-// B&L	Buxton & Lewis
-// Bg	Bridge
-// T100	Trail 100
-// Y	Yeaman
-// Cm	Clem
-// Ca	Carn
-// Bin	Binnion

@@ -1,0 +1,105 @@
+0 Number int64  
+1 Number_Searchable string
+2 Name_Searchable string
+3 Name string
+4 Parent_SMC float64
+5 Parent_name_SMC string
+6 Section string
+7 Region string
+8 Area string
+9 Island string
+10 Topo_Section string
+11 County string
+12 Classification string
+13 Map_1:50k string
+14 Map_1:25k string
+15 Metres float64
+16 Feet int64  
+ 17 Grid_ref string
+18 Grid_ref_10 string
+19 Drop float64
+20 Col_grid_ref string
+21 Col_height float64
+22 Feature string
+23 Observations string
+24 Survey string
+25 Climbed float64
+26 Country string
+27 County_Top string
+28 Revision string
+29 Comments string
+30 Streetmap/MountainViews string
+31 Geograph string
+32 Hill-bagging string
+33 Xcoord int64  
+ 34 Ycoord int64  
+ 35 Latitude float64
+36 Longitude float64
+37 GridrefXY string
+38 \_Section float64
+39 Parent_Ma int64  
+ 40 Parent_name_Ma string
+41 MVNumber float64
+42 Ma int64  
+ 43 Ma_twin int64  
+ 44 Hu int64  
+ 45 Hu_twin int64  
+ 46 Tu int64  
+ 47 Sim int64  
+ 48 five int64  
+ 49 M int64  
+ 50 MT int64  
+ 51 F int64  
+ 52 C int64  
+ 53 G int64  
+ 54 D int64  
+ 55 DT int64  
+ 56 Hew int64  
+ 57 N int64  
+ 58 Dew int64  
+ 59 DDew int64  
+ 60 HF int64  
+ 61 four int64  
+ 62 three int64  
+ 63 two int64  
+ 64 one int64  
+ 65 zero int64  
+ 66 W int64  
+ 67 WO int64  
+ 68 B int64  
+ 69 Sy int64  
+ 70 Fel int64  
+ 71 CoH int64  
+ 72 CoH_twin int64  
+ 73 CoU int64  
+ 74 CoU_twin int64  
+ 75 CoA int64  
+ 76 CoA_twin int64  
+ 77 CoL int64  
+ 78 CoL_twin int64  
+ 79 SIB int64  
+ 80 sMa int64  
+ 81 sHu int64  
+ 82 sSim int64  
+ 83 s5 int64  
+ 84 s4 int64  
+ 85 Mur int64  
+ 86 CT int64  
+ 87 GT int64  
+ 88 BL int64  
+ 89 Bg int64  
+ 90 Y int64  
+ 91 Cm int64  
+ 92 T100 int64  
+ 93 xMT int64  
+ 94 xC int64  
+ 95 xG int64  
+ 96 xN int64  
+ 97 xDT int64  
+ 98 Dil int64  
+ 99 VL int64  
+ 100 A int64  
+ 101 Ca int64  
+ 102 Bin int64  
+ 103 O int64  
+ 104 Un int64
