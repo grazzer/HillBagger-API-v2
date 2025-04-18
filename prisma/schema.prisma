@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output = "../node_modules/.prisma/client"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -33,7 +33,8 @@ model hills {
   Col_height              Float
   Comments                String?
   Country                 String
-  County                  String?
+  County                  String
+  County_Searchable       String
   County_Top              String?
   D                       Int
   DDew                    Int
@@ -85,7 +86,7 @@ model hills {
   SIB                     Int
   Section_int             Float
   Sim                     Int
-  Streetmap_MountainViews String?
+  Streetmap_MountainViews String  @map("Streetmap/MountainViews")
   Survey                  String?
   Sy                      Int
   T100                    Int
