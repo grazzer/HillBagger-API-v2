@@ -11,24 +11,23 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 function main(whereQuery, orderQuery, skip, take) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield prisma.hills.findMany({
-            skip: skip,
-            take: take,
-            orderBy: orderQuery,
-            where: whereQuery,
-        });
+        try {
+            const [paginatedResults, totalCount] = yield prisma.$transaction([
+                prisma.hills.findMany({
+                    skip: skip,
+                    take: take,
+                    orderBy: orderQuery,
+                    where: whereQuery,
+                }),
+                prisma.hills.count({
+                    where: whereQuery,
+                }),
+            ]);
+            return { hills: paginatedResults, count: totalCount };
+        }
+        catch (error) {
+            return error;
+        }
     });
 }
 export { main, prisma };
-// const results = await prisma.post.findMany({
-//   skip: 200,
-//   take: 20,
-//   where: {
-//     email: {
-//       contains: 'Prisma',
-//     },
-//   },
-//   orderBy: {
-//     title: 'desc',
-//   },
-// })

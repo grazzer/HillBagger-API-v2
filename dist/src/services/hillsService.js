@@ -18,7 +18,7 @@ function searchHills(classificationQuery, searchQuery, directionQuery, pageNum, 
     const _searchQuery = getSearch(searchQuery);
     const findQuery = createFindQuery(_searchQuery, _classificationQuery);
     const _directionQuery = getDirection(directionQuery) || { Number: "asc" };
-    const _page = pageNum || 0;
+    const _page = parseInt(pageNum) || 0;
     return new Promise((resolve, reject) => {
         main(findQuery, _directionQuery, _page, itemsPerPage)
             .then((hills) => __awaiter(this, void 0, void 0, function* () {
@@ -26,7 +26,7 @@ function searchHills(classificationQuery, searchQuery, directionQuery, pageNum, 
         }))
             .catch((e) => __awaiter(this, void 0, void 0, function* () {
             console.error(e);
-            reject("error");
+            reject(e);
             process.exit(1);
         }))
             .finally(() => __awaiter(this, void 0, void 0, function* () {

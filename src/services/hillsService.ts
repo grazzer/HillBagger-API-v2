@@ -26,7 +26,7 @@ function searchHills(
       })
       .catch(async (e) => {
         console.error(e);
-        reject("error");
+        reject(e);
         process.exit(1);
       })
       .finally(async () => {

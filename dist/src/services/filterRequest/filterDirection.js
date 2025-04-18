@@ -14,10 +14,10 @@ function getDirection(directionQuery) {
             direction = { Name: "desc" };
             break;
         case "h1":
-            direction = { Metres: "desc" };
+            direction = { Metres: "asc" };
             break;
         case "h-1":
-            direction = { Metres: "asc" };
+            direction = { Metres: "desc" };
             break;
         case "l1":
             direction = { County: "asc" };

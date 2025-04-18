@@ -22,8 +22,8 @@ async function main(
     ]);
 
     return { hills: paginatedResults, count: totalCount };
-  } catch {
-    return "error";
+  } catch (error) {
+    return error;
   }
 }
 

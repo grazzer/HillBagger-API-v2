@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -9,18 +10,6 @@ datasource db {
 
 model hills {
   id                      String  @id @default(auto()) @map("_id") @db.ObjectId
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  // 0 Int @map("0")
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  // 1 Int @map("1")
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  // 2 Int @map("2")
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  // 3 Int @map("3")
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  // 4 Int @map("4")
-  /// This field was commented out because of an invalid name. Please provide a valid one that matches [a-zA-Z][a-zA-Z0-9_]*
-  // 5 Int @map("5")
   A                       Int
   Area                    String?
   B                       Int
@@ -30,82 +19,80 @@ model hills {
   C                       Int
   CT                      Int
   Ca                      Int
-  /// Multiple data types found: String: 49.3%, Int: 50.7% out of 1000 sampled entries
-  Classification          Json
+  Classification          String
   Cm                      Int
   CoA                     Int
-  CoA_                    Int     @map("CoA=")
+  CoA_twin                Int
   CoH                     Int
-  CoH_                    Int     @map("CoH=")
+  CoH_twin                Int
   CoL                     Int
-  CoL_                    Int     @map("CoL=")
+  CoL_twin                Int
   CoU                     Int
-  CoU_                    Int     @map("CoU=")
-  Col_grid_ref            String  @map("Col grid ref")
-  /// Multiple data types found: Float: 12.7%, Int: 87.3% out of 1000 sampled entries
-  Col_height              Json    @map("Col height")
+  CoU_twin                Int
+  Col_grid_ref            String
+  Col_height              Float
   Comments                String?
   Country                 String
-  County                  String
-  County_Top              String? @map("County Top")
+  County                  String?
+  County_Top              String?
   D                       Int
   DDew                    Int
   DT                      Int
   Dew                     Int
   Dil                     Int
-  /// Multiple data types found: Float: 12.1%, Int: 87.9% out of 1000 sampled entries
-  Drop                    Json
+  Dod                     Int
+  Drop                    Float
   F                       Int
   Feature                 String?
   Feet                    Int
   Fel                     Int
+  Four                    Int
   G                       Int
   GT                      Int
   Geograph                String
-  Grid_ref                String  @map("Grid ref")
-  Grid_ref_10             String? @map("Grid ref 10")
+  Grid_ref                String
+  Grid_ref_10             String?
   GridrefXY               String
   HF                      Int
   Hew                     Int
   Hill_bagging            String  @map("Hill-bagging")
   Hu                      Int
-  Hu_                     Int     @map("Hu=")
+  Hu_twin                 Int
   Island                  String?
   Latitude                Float
   Longitude               Float
   M                       Int
   MT                      Int
-  MVNumber                Int?
+  MVNumber                Float?
   Ma                      Int
-  Ma_                     Int     @map("Ma=")
-  /// Multiple data types found: String: 67.7%, Int: 32.3% out of 935 sampled entries
-  Map_1_25k               Json?   @map("Map 1:25k")
-  /// Multiple data types found: String: 16.3%, Int: 83.7% out of 998 sampled entries
-  Map_1_50k               Json?   @map("Map 1:50k")
-  /// Multiple data types found: Float: 17.2%, Int: 82.8% out of 1000 sampled entries
-  Metres                  Json
+  Ma_twin                 Int
+  Metres                  Float
   Mur                     Int
   N                       Int
   Name                    String
+  Name_Searchable         String
   Number                  Int
+  Number_Searchable       String
   O                       Int
   Observations            String?
-  Parent__Ma_             Int     @map("Parent (Ma)")
-  Parent__SMC_            Int?    @map("Parent (SMC)")
-  Parent_name__Ma_        String? @map("Parent name (Ma)")
-  Parent_name__SMC_       String? @map("Parent name (SMC)")
+  One                     Int
+  Parent_Ma               Int
+  Parent_SMC              Float?
+  Parent_name_Ma          String?
+  Parent_name_SMC         String?
   Region                  String
   Revision                String
   SIB                     Int
-  /// Multiple data types found: String: 82.6%, Int: 17.4% out of 1000 sampled entries
-  Section                 Json
+  Section_int             Float
   Sim                     Int
-  Streetmap_MountainViews String? @map("Streetmap/MountainViews")
+  Streetmap_MountainViews String?
   Survey                  String?
   Sy                      Int
   T100                    Int
-  Topo_Section            String? @map("Topo Section")
+  Three                   Int
+  Topo_Section            String?
   Tu                      Int
+  Two                     Int
   Un                      Int
   VL                      Int
   W                       Int
@@ -113,10 +100,9 @@ model hills {
   Xcoord                  Int
   Y                       Int
   Ycoord                  Int
-  /// Multiple data types found: Float: 82.7%, Int: 17.3% out of 1000 sampled entries
-  ///Section                 Json    @map("_Section")
-  s4                      Int
-  s5                      Int
+  Zero                    Int
+  sDod                    Int
+  sFour                   Int
   sHu                     Int
   sMa                     Int
   sSim                    Int
