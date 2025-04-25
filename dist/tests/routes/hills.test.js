@@ -78,7 +78,7 @@ describe("hills endpoint classification - type", () => {
             " hills", () => __awaiter(void 0, void 0, void 0, function* () {
             const response = yield request(app).get("/hills/" + input[0]);
             expect(response.status).toBe(200);
-            expect(response.body.hills.every((currentValue) => currentValue[input[1]] == 1)).toBe(true);
+            expect(response.body.hills.every((currentValue) => currentValue[input[1]] == true)).toBe(true);
         }));
     });
 });
@@ -266,4 +266,15 @@ describe("hills endpoint pagination", () => {
             expect(response.body.hills[0].Number).toBe(input * 20 + 1);
         }));
     });
+});
+// requires change to classification, maybe.
+describe("hills by ID endpoint ", () => {
+    it("GET /hills/'ID' should return a list of hills", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request(app).get("/hills/all");
+        expect(response.status).toBe(200);
+        expect(response.body.hills.length == 1).toBe(true);
+        expect(response.body.hills.length).toBe(1);
+        expect(response.body.hills[0].name == "Ben Nevis [Beinn Nibheis]").toBe(true);
+        expect(response.body.hills[0].name).toBe("Ben Nevis [Beinn Nibheis]");
+    }));
 });
