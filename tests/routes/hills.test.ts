@@ -21,7 +21,7 @@ describe("hills endpoint classification - type", () => {
     ["dodd", "Dod"],
     ["munro", "M"],
     ["Munro", "M"],
-    ["munro_Top", "MT"],
+    ["munro_top", "MT"],
     ["furth", "F"],
     ["corbett", "C"],
     ["graham", "G"],
@@ -50,7 +50,7 @@ describe("hills endpoint classification - type", () => {
     ["county_top", "CoU"],
     ["london", "CoL"],
     ["islands_of_britain", "SIB"],
-    ["dillon", "Dill"],
+    ["dillon", "Dil"],
     ["arderin", "A"],
     ["vandeleur-lynam", "VL"],
     ["other", "O"],
@@ -58,7 +58,7 @@ describe("hills endpoint classification - type", () => {
     ["trump", "Tu"],
     ["murdo", "Mur"],
     ["corbett_top", "CT"],
-    ["graham_top", ""],
+    ["graham_top", "GT"],
     ["bridge", "Bg"],
     ["yeaman", "Y"],
     ["clem", "Cm"],
@@ -77,7 +77,7 @@ describe("hills endpoint classification - type", () => {
         expect(response.status).toBe(200);
         expect(
           response.body.hills.every(
-            (currentValue: any) => currentValue[input[1]] == 1
+            (currentValue: any) => currentValue[input[1]] == true
           )
         ).toBe(true);
       }
@@ -94,7 +94,7 @@ describe("hills endpoint classification - country", () => {
     ["ireland", "I"],
     ["isle_of_man", "M"],
     ["channel_islands", "C"],
-    ["england_scotland_boarder", "ES"],
+    ["england_scotland_border", "ES"],
   ];
 
   classList.forEach((input) => {
@@ -119,7 +119,7 @@ describe("hills endpoint classification - country", () => {
 
 // test each classification default and incorrect query for their correct filtering of the data
 describe("hills endpoint classification - default", () => {
-  it("GET /hills/'RandomString' should return a list of all hills", async () => {
+  it("GET /hills/RandomString should return a list of all hills", async () => {
     const response: any = await request(app).get("/hills/RandomString");
     expect(response.status).toBe(200);
     let list: any[] = [];
@@ -242,10 +242,13 @@ function isReverseAlphabetic(arr: string[]) {
 describe("hills endpoint search", () => {
   const searchList = [
     "Lom",
+    "l O m",
     "Ben Chonzie",
     "ben chonzie",
+    "benchonzie",
     "Aberdeenshire",
     "aberdeenshire",
+    "aberd eenshire",
     "",
   ];
   searchList.forEach((input) => {
@@ -261,12 +264,31 @@ describe("hills endpoint search", () => {
         expect(
           response.body.hills.every(
             (currentValue: any) =>
-              currentValue.Name.includes(input) ||
-              currentValue.County.includes(input)
+              currentValue.Name_Searchable.includes(
+                input.toLowerCase().split(" ").join("")
+              ) ||
+              currentValue.County_Searchable.includes(
+                input.toLowerCase().split(" ").join("")
+              )
           )
         ).toBe(true);
       }
     );
+  });
+  it("GET /hills/all?s=1 should return a list of hills where the number contains 1", async () => {
+    const response: any = await request(app).get("/hills/all?s=1");
+    expect(response.status).toBe(200);
+    expect(response.body.hills.length > 0).toBe(true);
+    expect(
+      response.body.hills.every((currentValue: any) =>
+        currentValue.Number_Searchable.includes(1)
+      )
+    ).toBe(true);
+  });
+  it("GET /hills/all?s=1a should return an empty list of hills", async () => {
+    const response: any = await request(app).get("/hills/all?s=1a");
+    expect(response.status).toBe(200);
+    expect(response.body.hills.length).toBe(0);
   });
 });
 
@@ -281,10 +303,10 @@ describe("hills endpoint pagination", () => {
         " should return a list of hills beginning with hill number" +
         input * 20,
       async () => {
-        const response: any = await request(app).get("/hills/all?s=" + input);
+        const response: any = await request(app).get("/hills/all?p=" + input);
         expect(response.status).toBe(200);
         expect(response.body.hills.length > 0).toBe(true);
-        expect(response.body.hills[0].Number == input * 20).toBe(true);
+        expect(response.body.hills[0].Number).toBe(input * 20 + 1);
       }
     );
   });

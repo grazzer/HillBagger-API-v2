@@ -1,22 +1,14 @@
-function getSearch(SearchQuery: any) {
+function getSearch(SearchQuery: string) {
   if (SearchQuery) {
-    const searchString: string = SearchQuery.replace(/\s/g, "");
-    if (/^[A-Za-z]+$/.test(searchString)) {
-      return {
-        OR: [
-          { Name: { contains: SearchQuery } },
-          { County: { contains: SearchQuery } },
-        ],
-      };
-    } else if (/^\d+$/.test(searchString)) {
-      let searchNumbers = parseInt(searchString);
-      return { Number: searchNumbers };
-    } else {
-      console.log("mix of numbers and letters");
-      // TODO: error needed ?
-    }
+    const searchString: string = SearchQuery.split(" ").join("");
+    return {
+      OR: [
+        { Name_Searchable: { contains: searchString.toLowerCase() } },
+        { County_Searchable: { contains: searchString.toLowerCase() } },
+        { Number_Searchable: { contains: searchString } },
+      ],
+    };
   }
-  return;
 }
 
 export { getSearch };

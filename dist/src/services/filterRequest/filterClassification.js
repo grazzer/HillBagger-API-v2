@@ -1,6 +1,6 @@
 function getClassification(classificationQuery) {
     let classification = {};
-    switch (classificationQuery) {
+    switch (classificationQuery.toLowerCase()) {
         // search by country
         case "scotland":
             classification = { Country: "S" };
@@ -14,7 +14,7 @@ function getClassification(classificationQuery) {
         case "ireland":
             classification = { Country: "I" };
             break;
-        case "isle_of_Man":
+        case "isle_of_man":
             classification = { Country: "M" };
             break;
         case "channel_islands":
@@ -72,6 +72,21 @@ function getClassification(classificationQuery) {
         case "highland_five":
             classification = { HF: 1 };
             break;
+        case "zero":
+            classification = { Zero: 1 };
+            break;
+        case "one":
+            classification = { One: 1 };
+            break;
+        case "two":
+            classification = { Two: 1 };
+            break;
+        case "three":
+            classification = { Three: 1 };
+            break;
+        case "four":
+            classification = { Four: 1 };
+            break;
         case "wainwright":
             classification = { W: 1 };
             break;
@@ -92,6 +107,9 @@ function getClassification(classificationQuery) {
         //   break;
         case "county_top":
             classification = { CoU: 1 };
+            break;
+        case "london":
+            classification = { CoL: 1 };
             break;
         case "islands_of_britain":
             classification = { SIB: 1 };

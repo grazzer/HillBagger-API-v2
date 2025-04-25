@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/client"
+  provider     = "prisma-client-js"
+  output       = "../src/generated/prisma"
+  moduleFormat = "esm"
 }
 
 datasource db {
@@ -10,25 +11,25 @@ datasource db {
 
 model hills {
   id                      String  @id @default(auto()) @map("_id") @db.ObjectId
-  A                       Int
+  A                       Boolean
   Area                    String?
-  B                       Int
-  BL                      Int
-  Bg                      Int
-  Bin                     Int
-  C                       Int
-  CT                      Int
-  Ca                      Int
+  B                       Boolean
+  BL                      Boolean
+  Bg                      Boolean
+  Bin                     Boolean
+  C                       Boolean
+  CT                      Boolean
+  Ca                      Boolean
   Classification          String
-  Cm                      Int
-  CoA                     Int
-  CoA_twin                Int
-  CoH                     Int
-  CoH_twin                Int
-  CoL                     Int
-  CoL_twin                Int
-  CoU                     Int
-  CoU_twin                Int
+  Cm                      Boolean
+  CoA                     Boolean
+  CoA_twin                Boolean
+  CoH                     Boolean
+  CoH_twin                Boolean
+  CoL                     Boolean
+  CoL_twin                Boolean
+  CoU                     Boolean
+  CoU_twin                Boolean
   Col_grid_ref            String
   Col_height              Float
   Comments                String?
@@ -36,80 +37,80 @@ model hills {
   County                  String
   County_Searchable       String
   County_Top              String?
-  D                       Int
-  DDew                    Int
-  DT                      Int
-  Dew                     Int
-  Dil                     Int
-  Dod                     Int
+  D                       Boolean
+  DDew                    Boolean
+  DT                      Boolean
+  Dew                     Boolean
+  Dil                     Boolean
+  Dod                     Boolean
   Drop                    Float
-  F                       Int
+  F                       Boolean
   Feature                 String?
   Feet                    Int
-  Fel                     Int
-  Four                    Int
-  G                       Int
-  GT                      Int
+  Fel                     Boolean
+  Four                    Boolean
+  G                       Boolean
+  GT                      Boolean
   Geograph                String
   Grid_ref                String
   Grid_ref_10             String?
   GridrefXY               String
-  HF                      Int
-  Hew                     Int
+  HF                      Boolean
+  Hew                     Boolean
   Hill_bagging            String  @map("Hill-bagging")
-  Hu                      Int
-  Hu_twin                 Int
+  Hu                      Boolean
+  Hu_twin                 Boolean
   Island                  String?
   Latitude                Float
   Longitude               Float
-  M                       Int
-  MT                      Int
+  M                       Boolean
+  MT                      Boolean
   MVNumber                Float?
-  Ma                      Int
-  Ma_twin                 Int
+  Ma                      Boolean
+  Ma_twin                 Boolean
   Metres                  Float
-  Mur                     Int
-  N                       Int
+  Mur                     Boolean
+  N                       Boolean
   Name                    String
   Name_Searchable         String
   Number                  Int
   Number_Searchable       String
-  O                       Int
+  O                       Boolean
   Observations            String?
-  One                     Int
+  One                     Boolean
   Parent_Ma               Int
   Parent_SMC              Float?
   Parent_name_Ma          String?
   Parent_name_SMC         String?
   Region                  String
   Revision                String
-  SIB                     Int
+  SIB                     Boolean
   Section_int             Float
-  Sim                     Int
-  Streetmap_MountainViews String  @map("Streetmap/MountainViews")
+  Sim                     Boolean
+  Streetmap_MountainViews String? @map("Streetmap/MountainViews")
   Survey                  String?
-  Sy                      Int
-  T100                    Int
-  Three                   Int
+  Sy                      Boolean
+  T100                    Boolean
+  Three                   Boolean
   Topo_Section            String?
-  Tu                      Int
-  Two                     Int
-  Un                      Int
-  VL                      Int
-  W                       Int
-  WO                      Int
+  Tu                      Boolean
+  Two                     Boolean
+  Un                      Boolean
+  VL                      Boolean
+  W                       Boolean
+  WO                      Boolean
   Xcoord                  Int
-  Y                       Int
+  Y                       Boolean
   Ycoord                  Int
-  Zero                    Int
-  sDod                    Int
-  sFour                   Int
-  sHu                     Int
-  sMa                     Int
-  sSim                    Int
-  xC                      Int
-  xDT                     Int
-  xG                      Int
-  xMT                     Int
-  xN                      Int
+  Zero                    Boolean
+  sDod                    Boolean
+  sFour                   Boolean
+  sHu                     Boolean
+  sMa                     Boolean
+  sSim                    Boolean
+  xC                      Boolean
+  xDT                     Boolean
+  xG                      Boolean
+  xMT                     Boolean
+  xN                      Boolean
 }

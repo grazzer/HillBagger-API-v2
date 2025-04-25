@@ -1,6 +1,6 @@
 function getClassification(classificationQuery: string) {
   let classification: any = {};
-  switch (classificationQuery) {
+  switch (classificationQuery.toLowerCase()) {
     // search by country
     case "scotland":
       classification = { Country: "S" };
@@ -14,7 +14,7 @@ function getClassification(classificationQuery: string) {
     case "ireland":
       classification = { Country: "I" };
       break;
-    case "isle_of_Man":
+    case "isle_of_man":
       classification = { Country: "M" };
       break;
     case "channel_islands":
@@ -25,118 +25,136 @@ function getClassification(classificationQuery: string) {
       break;
     // search by classification
     case "marilyn":
-      classification = { Ma: 1 };
+      classification = { Ma: true };
       break;
     case "hump":
-      classification = { Hu: 1 };
+      classification = { Hu: true };
       break;
     case "simm":
-      classification = { Sim: 1 };
+      classification = { Sim: true };
       break;
     case "dodd":
-      classification = { Dod: 1 };
+      classification = { Dod: true };
       break;
     case "munro":
-      classification = { M: 1 };
+      classification = { M: true };
       break;
     case "munro_top":
-      classification = { MT: 1 };
+      classification = { MT: true };
       break;
     case "furth":
-      classification = { F: 1 };
+      classification = { F: true };
       break;
     case "corbett":
-      classification = { C: 1 };
+      classification = { C: true };
       break;
     case "graham":
-      classification = { G: 1 };
+      classification = { G: true };
       break;
     case "donald":
-      classification = { D: 1 };
+      classification = { D: true };
       break;
     case "donald_top":
-      classification = { DT: 1 };
+      classification = { DT: true };
       break;
     case "hewitt":
-      classification = { Hew: 1 };
+      classification = { Hew: true };
       break;
     case "nuttall":
-      classification = { N: 1 };
+      classification = { N: true };
       break;
     case "dewey":
-      classification = { Dew: 1 };
+      classification = { Dew: true };
       break;
     case "donald_dewey":
-      classification = { DDew: 1 };
+      classification = { DDew: true };
       break;
     case "highland_five":
-      classification = { HF: 1 };
+      classification = { HF: true };
+      break;
+    case "zero":
+      classification = { Zero: true };
+      break;
+    case "one":
+      classification = { One: true };
+      break;
+    case "two":
+      classification = { Two: true };
+      break;
+    case "three":
+      classification = { Three: true };
+      break;
+    case "four":
+      classification = { Four: true };
       break;
     case "wainwright":
-      classification = { W: 1 };
+      classification = { W: true };
       break;
     case "wainwright_outlying":
-      classification = { WO: 1 };
+      classification = { WO: true };
       break;
     case "birkett":
-      classification = { B: 1 };
+      classification = { B: true };
       break;
     case "synge":
-      classification = { Sy: 1 };
+      classification = { Sy: true };
       break;
     case "fellranger":
-      classification = { Fel: 1 };
+      classification = { Fel: true };
       break;
     // case "ethel":
-    //   classification = { E: 1 };
+    //   classification = { E: true };
     //   break;
     case "county_top":
-      classification = { CoU: 1 };
+      classification = { CoU: true };
+      break;
+    case "london":
+      classification = { CoL: true };
       break;
     case "islands_of_britain":
-      classification = { SIB: 1 };
+      classification = { SIB: true };
       break;
     case "dillon":
-      classification = { Dil: 1 };
+      classification = { Dil: true };
       break;
     case "arderin":
-      classification = { A: 1 };
+      classification = { A: true };
       break;
     case "vandeleur-lynam":
-      classification = { VL: 1 };
+      classification = { VL: true };
       break;
     case "other":
-      classification = { O: 1 };
+      classification = { O: true };
       break;
     case "unclassified":
-      classification = { Un: 1 };
+      classification = { Un: true };
       break;
     case "trump":
-      classification = { Tu: 1 };
+      classification = { Tu: true };
       break;
     case "murdo":
-      classification = { Mur: 1 };
+      classification = { Mur: true };
       break;
     case "corbett_top":
-      classification = { CT: 1 };
+      classification = { CT: true };
       break;
     case "graham_top":
-      classification = { GT: 1 };
+      classification = { GT: true };
       break;
     case "bridge":
-      classification = { Bg: 1 };
+      classification = { Bg: true };
       break;
     case "yeaman":
-      classification = { Y: 1 };
+      classification = { Y: true };
       break;
     case "clem":
-      classification = { Cm: 1 };
+      classification = { Cm: true };
       break;
     case "carn":
-      classification = { Ca: 1 };
+      classification = { Ca: true };
       break;
     case "binnion":
-      classification = { Bin: 1 };
+      classification = { Bin: true };
       break;
     case "all":
       break;
