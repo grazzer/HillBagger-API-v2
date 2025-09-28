@@ -36,3 +36,6 @@ function searchHills(
 }
 
 export { searchHills };
+function resolve(hills: unknown) {
+  throw new Error("Function not implemented.");
+}

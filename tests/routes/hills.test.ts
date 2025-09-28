@@ -311,3 +311,17 @@ describe("hills endpoint pagination", () => {
     );
   });
 });
+
+// requires change to classification, maybe.
+describe("hills by ID endpoint ", () => {
+  it("GET /hills/'ID' should return a list of hills", async () => {
+    const response: any = await request(app).get("/hills/all");
+    expect(response.status).toBe(200);
+    expect(response.body.hills.length == 1).toBe(true);
+    expect(response.body.hills.length).toBe(1);
+    expect(response.body.hills[0].name == "Ben Nevis [Beinn Nibheis]").toBe(
+      true
+    );
+    expect(response.body.hills[0].name).toBe("Ben Nevis [Beinn Nibheis]");
+  });
+});

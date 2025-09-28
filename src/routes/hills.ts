@@ -12,9 +12,11 @@ router.get("/hills/:classification", (req, res, next) => {
     req.app.locals.paginationVolume
   )
     .then((ret) => {
+      // TODO: success: true,   needed to be consistent with other responses
       res.status(200).json(ret);
     })
     .catch(() => {
+      // TODO: success: false,   needed to be consistent with other responses
       res.status(500).json({ error: "could not find data" });
     });
 });
