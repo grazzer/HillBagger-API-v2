@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { authorizeUser, registerUser } from "../DataBase/userDb.js";
-import { Users } from "@prisma/client";
+import { User } from "@prisma/client";
 
 export async function userRegister(req: Request, res: Response) {
   const { name, email, password } = req.body;
@@ -10,12 +10,12 @@ export async function userRegister(req: Request, res: Response) {
         console.log("User already exists:");
         return res.status(400).json({
           success: false,
-          error: "An account with this Email already exists.",
+          message: "An account with this Email already exists.",
         });
       }
       registerUser(name, email, password)
         .then((user) => {
-          const { password, ...user_data } = user as Users;
+          const { password, ...user_data } = user as User;
           return res.status(201).json({
             data: user_data,
             success: true,
@@ -26,18 +26,18 @@ export async function userRegister(req: Request, res: Response) {
           console.error("Error registering user:", error);
           return res
             .status(500)
-            .json({ success: false, error: "Internal server error" });
+            .json({ success: false, message: "Internal server error" });
         });
     })
     .catch((error) => {
       console.error("Error checking unique email:", error);
       return res
         .status(500)
-        .json({ success: false, error: "Internal server error" });
+        .json({ success: false, message: "Internal server error" });
     });
 }
 
-///  works both ways -- which is best?
+///  TOLEARN: works both ways -- which is best?
 
 // import { Request, Response, NextFunction } from "express";
 // import { checkUniqueEmail, registerUser } from "../DataBase/userDb.js";

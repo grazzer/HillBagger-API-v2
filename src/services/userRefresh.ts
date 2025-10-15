@@ -8,7 +8,7 @@ export async function userRefresh(req: Request, res: Response) {
   if (!refreshToken) {
     res
       .status(401)
-      .json({ success: false, error: "No refresh token provided" });
+      .json({ success: false, message: "No refresh token provided" });
   }
 
   try {
@@ -31,6 +31,6 @@ export async function userRefresh(req: Request, res: Response) {
       message: "Token refreshed successfully.",
     });
   } catch (error) {
-    res.status(401).json({ success: false, error: "Invalid refresh token." });
+    res.status(401).json({ success: false, message: "Invalid refresh token." });
   }
 }

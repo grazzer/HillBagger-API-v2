@@ -1,15 +1,12 @@
 import { Request, Response } from "express";
 import { getUserById } from "../DataBase/userDb.js";
-import { error } from "console";
-
-// get user from input not token
 
 export function getUser(req: Request, res: Response) {
   try {
     if (!req.query.userId) {
-      res.status(200).json({
+      res.status(422).json({
         success: false,
-        error: "User ID is required",
+        message: "User ID is required",
       });
       return;
     }
@@ -24,14 +21,14 @@ export function getUser(req: Request, res: Response) {
       } else {
         return res.status(404).json({
           success: false,
-          error: "User not found",
+          message: "User not found",
         });
       }
     });
   } catch {
     res.status(500).json({
       success: false,
-      error: "Internal Server Error",
+      message: "Internal Server Error",
     });
   }
 }

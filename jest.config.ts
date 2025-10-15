@@ -1,11 +1,19 @@
 module.exports = {
   //... // your previous configurations
   extensionsToTreatAsEsm: [".ts"],
-  globals: {
-    "ts-jest": {
-      //... // your other configurations here
-      useESM: true,
-    },
+  // globals: {
+  //   "ts-jest": {
+  //     //... // your other configurations here
+  //     useESM: true,
+  //   },
+  // },
+  transform: {
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        tsconfig: "tsconfig.json",
+      },
+    ],
   },
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1",

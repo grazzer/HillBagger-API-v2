@@ -10,7 +10,7 @@ export async function accessValidation(
   if (!accessToken) {
     return res
       .status(401)
-      .json({ success: false, error: "No access token provided" });
+      .json({ success: false, message: "No access token provided" });
   }
   try {
     const key = process.env.SECRET_ACCESS_TOKEN as string;
@@ -18,6 +18,6 @@ export async function accessValidation(
     res.locals.userId = userId.id;
     return next();
   } catch {
-    res.status(401).json({ success: false, error: "Invalid access token." });
+    res.status(401).json({ success: false, message: "Invalid access token." });
   }
 }

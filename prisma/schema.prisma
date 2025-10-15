@@ -7,28 +7,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   photo     String?
   following String[]
   email     String   @unique
   password  String
+
+  friendIDs                 String[] @db.ObjectId
+  friends                   User[]   @relation("UserFriend", fields: [friendIDs], references: [id])
+  copyFriendIDs             String[] @db.ObjectId
+  copyFriends               User[]   @relation("UserFriend", fields: [copyFriendIDs], references: [id])
+  FriendRequestsSentIDs     String[] @db.ObjectId
+  FriendRequestsSent        User[]   @relation("FriendRequest", fields: [FriendRequestsSentIDs], references: [id])
+  FriendRequestsReceivedIDs String[] @db.ObjectId
+  FriendRequestsReceived    User[]   @relation("FriendRequest", fields: [FriendRequestsReceivedIDs], references: [id])
+  BlockedUserIDs            String[] @db.ObjectId
+
   assentIDs String[] @db.ObjectId
-  assents   Assent[] @relation(fields: [assentIDs], references: [id])  
+  assents   Assent[] @relation(fields: [assentIDs], references: [id])
 }
 
 model Assent {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  date      String
-  hillID    String
-  time      String
-  weather   String
-  distance  Float
-  notes     String
-  photos    String[]
-  userIDs   String[]   @db.ObjectId
-  users     Users[] @relation(fields: [userIDs], references: [id])
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  date            String
+  hillID          String
+  time            String
+  weather         String
+  distance        Float
+  notes           String
+  photos          String[]
+  groupMembersIDs String[] @db.ObjectId
+  groupMembers    User[]   @relation(fields: [groupMembersIDs], references: [id])
 }
 
 model hills {

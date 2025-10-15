@@ -21,7 +21,7 @@ export async function userLogin(req: Request, res: Response) {
       if (!existingUser) {
         return res.status(401).json({
           success: false,
-          error: "Invalid email or password. Please try again",
+          message: "Invalid email or password. Please try again",
         });
       }
       const isPasswordValid = await bcrypt.compare(
@@ -31,7 +31,7 @@ export async function userLogin(req: Request, res: Response) {
       if (!isPasswordValid) {
         return res.status(401).json({
           success: false,
-          error:
+          message:
             "Invalid email or password. Please try again with the correct credentials.",
         });
       }
@@ -67,7 +67,7 @@ export async function userLogin(req: Request, res: Response) {
   } catch (error) {
     res.status(500).json({
       success: false,
-      error: "Internal Server Error",
+      message: "Internal Server Error",
     });
   }
 }
