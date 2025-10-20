@@ -89,13 +89,15 @@ describe("friend request", () => {
     expect(response.body.data.FriendRequestsSentIDs).toEqual(
       expect.arrayContaining([userBid])
     );
-    const response2: any = await request(app)
+    await request(app)
       .get("/profile")
-      .set("Cookie", [userBCookie]);
-    expect(response2.status).toBe(200);
-    expect(response2.body.data.FriendRequestsReceivedIDs).toEqual(
-      expect.arrayContaining([userAid])
-    );
+      .set("Cookie", [userBCookie])
+      .then((response2) => {
+        expect(response2.status).toBe(200);
+        expect(response2.body.data.FriendRequestsReceivedIDs).toEqual(
+          expect.arrayContaining([userAid])
+        );
+      });
   });
   it("Put new friend request with same ID again", async () => {
     const response: any = await request(app)

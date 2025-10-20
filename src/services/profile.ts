@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { getUserById } from "../DataBase/userDb.js";
+import { getProfile as fetchProfile } from "../DataBase/profileDb.js";
 
 async function getProfile(req: Request, res: Response) {
   try {
-    getUserById(res.locals.userId).then((user) => {
+    fetchProfile(res.locals.userId).then((user) => {
       if (user) {
         const userData = user;
         return res.status(200).json({

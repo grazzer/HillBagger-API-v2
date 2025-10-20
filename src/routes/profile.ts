@@ -26,7 +26,7 @@ router.put("/friend/acceptRequest", acceptFriendRequest);
 router.delete("/friend/rejectRequest", rejectFriendRequest);
 router.delete("/friend/remove", removeFriend);
 
-router.use(validateBlockUserID, handleValidationErrors);
+router.use("/", validateBlockUserID, handleValidationErrors);
 router.put("/blockUser", blockUser);
 router.delete("/unblockUser", unblockUser);
 
