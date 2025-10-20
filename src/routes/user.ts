@@ -10,7 +10,7 @@ import {
 const router = express.Router();
 
 router.get(
-  "/getUse/rById",
+  "/getUser/ById",
   validateUserSearchID,
   handleValidationErrors,
   userById
