@@ -7,7 +7,8 @@ import {
   disconnectFriend,
   addBlockedUser,
   removeBlockedUser,
-} from "../DataBase/userDb.js";
+} from "../DataBase/friendsDb.js";
+
 import { get } from "node:http";
 
 // send a friend request

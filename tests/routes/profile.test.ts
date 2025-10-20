@@ -1,12 +1,12 @@
 import request from "supertest";
 import { app } from "../../src/app.js";
-import { after } from "node:test";
 
 //Integration tests for the profile endpoint
 let userAid: string = "";
 let userBid: string = "";
 let userACookie: string = "";
 let userBCookie: string = "";
+
 beforeAll(async () => {
   await request(app)
     .post("/register")

@@ -1,27 +1,71 @@
 import { Request, Response } from "express";
-import { getUserById } from "../DataBase/userDb.js";
+import {
+  getUserById,
+  getUserByName,
+  getUserByAscent,
+} from "../DataBase/userDb.js";
 
-export function getUser(req: Request, res: Response) {
+export function userById(req: Request, res: Response) {
   try {
-    if (!req.query.userId) {
-      res.status(422).json({
-        success: false,
-        message: "User ID is required",
-      });
-      return;
-    }
-    getUserById(req.query.userId).then((user) => {
+    getUserById(req.body.userId).then((user) => {
       if (user) {
-        const { email, ...userData } = user;
         return res.status(200).json({
           success: true,
           message: "User found",
-          data: userData,
+          data: user,
         });
       } else {
         return res.status(404).json({
           success: false,
           message: "User not found",
+        });
+      }
+    });
+  } catch {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+}
+
+export function userByName(req: Request, res: Response) {
+  try {
+    getUserByName(req.body.userName).then((user) => {
+      if (user.length > 0) {
+        return res.status(200).json({
+          success: true,
+          message: "User(s) found",
+          data: user,
+        });
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: "No users found",
+        });
+      }
+    });
+  } catch {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+}
+
+export function userByAscent(req: Request, res: Response) {
+  try {
+    getUserByAscent(req.body.hillId).then((user) => {
+      if (user.length > 0) {
+        return res.status(200).json({
+          success: true,
+          message: "User(s) found",
+          data: user,
+        });
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: "No users found",
         });
       }
     });

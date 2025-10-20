@@ -1,8 +1,31 @@
 import express from "express";
-import { getUser } from "../services/user.js";
+import { userById, userByAscent, userByName } from "../services/user.js";
+import handleValidationErrors from "../middleware/handleValidationErrors.js";
+import {
+  validateUserSearchID,
+  validateUserSearchName,
+  validateUserSearchAscent,
+} from "../middleware/valadationUserSearch.js";
 
 const router = express.Router();
 
-router.get("/getUser", getUser);
+router.get(
+  "/getUse/rById",
+  validateUserSearchID,
+  handleValidationErrors,
+  userById
+);
+router.get(
+  "/getUser/ByName",
+  validateUserSearchName,
+  handleValidationErrors,
+  userByName
+);
+router.get(
+  "/getUser/ByAscent",
+  validateUserSearchAscent,
+  handleValidationErrors,
+  userByAscent
+);
 
 export { router };

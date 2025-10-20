@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { authorizeUser } from "../DataBase/userDb.js";
+import { authorizeUser } from "../DataBase/authDb.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 

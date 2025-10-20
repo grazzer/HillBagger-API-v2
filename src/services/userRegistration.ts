@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { authorizeUser, registerUser } from "../DataBase/userDb.js";
+import { authorizeUser, registerUser } from "../DataBase/authDb.js";
 import { User } from "@prisma/client";
 
 export async function userRegister(req: Request, res: Response) {
@@ -15,11 +15,10 @@ export async function userRegister(req: Request, res: Response) {
       }
       registerUser(name, email, password)
         .then((user) => {
-          const { password, ...user_data } = user as User;
           return res.status(201).json({
-            data: user_data,
             success: true,
             message: "Your account has been successfully created.",
+            data: user,
           });
         })
         .catch((error) => {

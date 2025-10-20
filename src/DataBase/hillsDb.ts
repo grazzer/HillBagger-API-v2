@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "./connectDb.js";
 
 async function main(
   whereQuery: any,
@@ -27,4 +25,4 @@ async function main(
   }
 }
 
-export { main, prisma };
+export { main };

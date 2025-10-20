@@ -1,4 +1,4 @@
-import { main, prisma } from "../DataBase/hillsDb.js";
+import { main } from "../DataBase/hillsDb.js";
 import { getSearch } from "./filterRequest/filterSearch.js";
 import { getDirection } from "./filterRequest/filterDirection.js";
 import { getClassification } from "./filterRequest/filterClassification.js";
@@ -28,9 +28,6 @@ function searchHills(
         console.error(e);
         reject(e);
         process.exit(1);
-      })
-      .finally(async () => {
-        await prisma.$disconnect();
       });
   });
 }
