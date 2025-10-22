@@ -13,7 +13,7 @@ import jwt from "jsonwebtoken";
 //   });
 // }
 
-export async function userLogin(req: Request, res: Response) {
+export async function handleUserLogin(req: Request, res: Response) {
   const { email, password } = req.body;
 
   try {

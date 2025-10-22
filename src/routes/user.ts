@@ -1,5 +1,9 @@
 import express from "express";
-import { userById, userByAscent, userByName } from "../services/user.js";
+import {
+  handleUserById,
+  handleUserByAscent,
+  handleUserByName,
+} from "../controllers/user.js";
 import handleValidationErrors from "../middleware/handleValidationErrors.js";
 import {
   validateUserSearchID,
@@ -13,19 +17,19 @@ router.get(
   "/getUser/ById",
   validateUserSearchID,
   handleValidationErrors,
-  userById
+  handleUserById
 );
 router.get(
   "/getUser/ByName",
   validateUserSearchName,
   handleValidationErrors,
-  userByName
+  handleUserByName
 );
 router.get(
   "/getUser/ByAscent",
   validateUserSearchAscent,
   handleValidationErrors,
-  userByAscent
+  handleUserByAscent
 );
 
 export { router };

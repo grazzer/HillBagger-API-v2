@@ -1,9 +1,9 @@
 import express from "express";
 import ValidateRegistration from "../middleware/validateRegistration.js";
 import ValidateLogin from "../middleware/validateLogin.js";
-import { userRefresh } from "../services/userRefresh.js";
-import { userRegister } from "../services/userRegistration.js";
-import { userLogin } from "../services/userLogin.js";
+import { handleUserRefresh } from "../controllers/userRefresh.js";
+import { handleUserRegister } from "../controllers/userRegistration.js";
+import { handleUserLogin } from "../controllers/userLogin.js";
 import handleValidationErrors from "../middleware/handleValidationErrors.js";
 
 const router = express.Router();
@@ -12,10 +12,10 @@ router.post(
   "/register",
   ValidateRegistration,
   handleValidationErrors,
-  userRegister
+  handleUserRegister
 );
-router.post("/login", ValidateLogin, handleValidationErrors, userLogin);
+router.post("/login", ValidateLogin, handleValidationErrors, handleUserLogin);
 
-router.get("/refresh", userRefresh);
+router.get("/refresh", handleUserRefresh);
 
 export { router };

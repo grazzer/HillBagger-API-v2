@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getProfile as fetchProfile } from "../DataBase/profileDb.js";
 
-async function getProfile(req: Request, res: Response) {
+async function HandleGetProfile(req: Request, res: Response) {
   try {
     fetchProfile(res.locals.userId).then((user) => {
       if (user) {
@@ -26,4 +26,4 @@ async function getProfile(req: Request, res: Response) {
   }
 }
 
-export { getProfile };
+export { HandleGetProfile };

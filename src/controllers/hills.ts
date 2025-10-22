@@ -5,7 +5,7 @@ import { getClassification } from "./filterRequest/filterClassification.js";
 import { createFindQuery } from "./filterRequest/createFindQuery.js";
 
 // TODO: name search is case sensitive
-function searchHills(
+function HandleSearchHills(
   classificationQuery: any,
   searchQuery: any,
   directionQuery: any,
@@ -32,7 +32,7 @@ function searchHills(
   });
 }
 
-export { searchHills };
+export { HandleSearchHills };
 function resolve(hills: unknown) {
   throw new Error("Function not implemented.");
 }

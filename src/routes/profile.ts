@@ -1,14 +1,14 @@
 import express from "express";
-import { getProfile } from "../services/profile.js";
+import { HandleGetProfile } from "../controllers/profile.js";
 import {
-  removeFriend,
-  friendRequest,
-  removeFriendRequest,
-  acceptFriendRequest,
-  rejectFriendRequest,
-  blockUser,
-  unblockUser,
-} from "../services/frends.js";
+  HandleRemoveFriend,
+  HandleFriendRequest,
+  HandleRemoveFriendRequest,
+  HandleAcceptFriendRequest,
+  HandleRejectFriendRequest,
+  HandleBlockUser,
+  HandleUnblockUser,
+} from "../controllers/frends.js";
 import {
   validateFriendID,
   validateBlockUserID,
@@ -17,17 +17,17 @@ import handleValidationErrors from "../middleware/handleValidationErrors.js";
 
 const router = express.Router();
 
-router.get("/profile", getProfile);
+router.get("/profile", HandleGetProfile);
 
 router.use("/friend", validateFriendID, handleValidationErrors);
-router.put("/friend/request", friendRequest);
-router.delete("/friend/request", removeFriendRequest);
-router.put("/friend/acceptRequest", acceptFriendRequest);
-router.delete("/friend/rejectRequest", rejectFriendRequest);
-router.delete("/friend/remove", removeFriend);
+router.put("/friend/request", HandleFriendRequest);
+router.delete("/friend/request", HandleRemoveFriendRequest);
+router.put("/friend/acceptRequest", HandleAcceptFriendRequest);
+router.delete("/friend/rejectRequest", HandleRejectFriendRequest);
+router.delete("/friend/remove", HandleRemoveFriend);
 
 router.use("/", validateBlockUserID, handleValidationErrors);
-router.put("/blockUser", blockUser);
-router.delete("/unblockUser", unblockUser);
+router.put("/blockUser", HandleBlockUser);
+router.delete("/unblockUser", HandleUnblockUser);
 
 export { router };

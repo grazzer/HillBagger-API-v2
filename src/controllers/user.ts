@@ -5,7 +5,7 @@ import {
   getUserByAscent,
 } from "../DataBase/userDb.js";
 
-export function userById(req: Request, res: Response) {
+export function handleUserById(req: Request, res: Response) {
   try {
     getUserById(req.body.userId).then((user) => {
       if (user) {
@@ -29,7 +29,7 @@ export function userById(req: Request, res: Response) {
   }
 }
 
-export function userByName(req: Request, res: Response) {
+export function handleUserByName(req: Request, res: Response) {
   try {
     getUserByName(req.body.userName).then((user) => {
       if (user.length > 0) {
@@ -53,7 +53,7 @@ export function userByName(req: Request, res: Response) {
   }
 }
 
-export function userByAscent(req: Request, res: Response) {
+export function handleUserByAscent(req: Request, res: Response) {
   try {
     getUserByAscent(req.body.hillId).then((user) => {
       if (user.length > 0) {

@@ -9,10 +9,8 @@ import {
   removeBlockedUser,
 } from "../DataBase/friendsDb.js";
 
-import { get } from "node:http";
-
 // send a friend request
-async function friendRequest(req: Request, res: Response) {
+async function HandleFriendRequest(req: Request, res: Response) {
   if (req.body.friendId == res.locals.userId) {
     res.status(400).json({
       success: false,
@@ -72,7 +70,7 @@ async function friendRequest(req: Request, res: Response) {
 }
 
 // remove friend request
-async function removeFriendRequest(req: Request, res: Response) {
+async function HandleRemoveFriendRequest(req: Request, res: Response) {
   try {
     getUserById(res.locals.userId).then((user) => {
       if (user?.FriendRequestsSentIDs.includes(req.body.friendId) == true) {
@@ -101,7 +99,7 @@ async function removeFriendRequest(req: Request, res: Response) {
 }
 
 // accept friend request
-async function acceptFriendRequest(req: Request, res: Response) {
+async function HandleAcceptFriendRequest(req: Request, res: Response) {
   //TODO:  check if request exists
   try {
     getUserById(res.locals.userId).then((user) => {
@@ -134,7 +132,7 @@ async function acceptFriendRequest(req: Request, res: Response) {
 
 // decline friend request
 // TODO: is this needed?
-async function rejectFriendRequest(req: Request, res: Response) {
+async function HandleRejectFriendRequest(req: Request, res: Response) {
   try {
     await requestFriendDisconnection(res.locals.userId, req.body.friendId).then(
       (user) => {
@@ -154,7 +152,7 @@ async function rejectFriendRequest(req: Request, res: Response) {
 }
 
 // remove friend
-async function removeFriend(req: Request, res: Response) {
+async function HandleRemoveFriend(req: Request, res: Response) {
   try {
     disconnectFriend(res.locals.userId, req.body.friendId).then((user) => {
       return res.status(200).json({
@@ -172,7 +170,7 @@ async function removeFriend(req: Request, res: Response) {
 }
 
 // block user
-async function blockUser(req: Request, res: Response) {
+async function HandleBlockUser(req: Request, res: Response) {
   try {
     getUserById(res.locals.userId).then((user) => {
       if (user) {
@@ -211,7 +209,7 @@ async function blockUser(req: Request, res: Response) {
 }
 
 // unblock user
-async function unblockUser(req: Request, res: Response) {
+async function HandleUnblockUser(req: Request, res: Response) {
   try {
     getUserById(res.locals.userId).then((user) => {
       if (user) {
@@ -245,11 +243,11 @@ async function unblockUser(req: Request, res: Response) {
 }
 
 export {
-  removeFriend,
-  friendRequest,
-  removeFriendRequest,
-  acceptFriendRequest,
-  rejectFriendRequest,
-  blockUser,
-  unblockUser,
+  HandleRemoveFriend,
+  HandleFriendRequest,
+  HandleRemoveFriendRequest,
+  HandleAcceptFriendRequest,
+  HandleRejectFriendRequest,
+  HandleBlockUser,
+  HandleUnblockUser,
 };

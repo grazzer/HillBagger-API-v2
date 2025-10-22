@@ -17,7 +17,7 @@ export async function authorizeUser(userEmail: string) {
   }
 }
 
-export async function registerUser(
+export async function createNewUser(
   userName: string,
   userEmail: string,
   password: string

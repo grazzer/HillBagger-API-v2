@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { authorizeUser, registerUser } from "../DataBase/authDb.js";
+import { authorizeUser, createNewUser } from "../DataBase/authDb.js";
 import { User } from "@prisma/client";
 
-export async function userRegister(req: Request, res: Response) {
+export async function handleUserRegister(req: Request, res: Response) {
   const { name, email, password } = req.body;
   authorizeUser(email)
     .then(async (existingUser) => {
@@ -13,7 +13,7 @@ export async function userRegister(req: Request, res: Response) {
           message: "An account with this Email already exists.",
         });
       }
-      registerUser(name, email, password)
+      createNewUser(name, email, password)
         .then((user) => {
           return res.status(201).json({
             success: true,

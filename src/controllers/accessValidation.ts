@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-export async function accessValidation(
+export async function handleAccessValidation(
   req: Request,
   res: Response,
   next: Function

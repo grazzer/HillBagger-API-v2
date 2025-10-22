@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-export async function userRefresh(req: Request, res: Response) {
+export async function handleUserRefresh(req: Request, res: Response) {
   console.log("Refreshing token...");
 
   const refreshToken = req.cookies["refreshToken"];
