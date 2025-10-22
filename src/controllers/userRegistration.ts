@@ -7,7 +7,6 @@ export async function handleUserRegister(req: Request, res: Response) {
   authorizeUser(email)
     .then(async (existingUser) => {
       if (existingUser) {
-        console.log("User already exists:");
         return res.status(400).json({
           success: false,
           message: "An account with this Email already exists.",
@@ -47,7 +46,6 @@ export async function handleUserRegister(req: Request, res: Response) {
 //   try {
 //     const existingUser = await checkUniqueEmail(email);
 //     if (existingUser) {
-//       console.log("User already exists:");
 //       return res
 //         .status(400)
 //         .json({ error: "An account with this Email already exists." });

@@ -7,6 +7,7 @@ let testUserID: string = "";
 const testUserName: string = "Tester";
 const hillId: string = "6808acb64466bb2759b4cc82";
 const invalidHillId: string = "6808acb64466bb2759b4cc81";
+let testUserCookie: string = "";
 
 beforeAll(async () => {
   // Create test users
@@ -20,11 +21,22 @@ beforeAll(async () => {
     .then((response) => {
       testUserID = response.body.data.id;
     });
+  await request(app)
+    .post("/login")
+    .send({
+      email: "test@email.com",
+      password: "Password123!",
+    })
+    .then((response) => {
+      testUserCookie = response.headers["set-cookie"];
+    });
   // TODO: assign user an to an assent
 });
 
 afterAll(async () => {
-  // Delete test users
+  await request(app)
+    .delete("/session/deleteUser")
+    .set("Cookie", [testUserCookie]);
 });
 
 // TOLEARN: two methods of checking keys in objects, what is the difference between toHaveProperty and toEqual(expect.objectContaining())?

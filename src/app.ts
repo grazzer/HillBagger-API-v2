@@ -7,6 +7,7 @@ import { router as hills } from "./routes/hills.js";
 import { router as userAuth } from "./routes/auth.js";
 import { router as profile } from "./routes/profile.js";
 import { router as getUser } from "./routes/user.js";
+import { router as session } from "./routes/session.js";
 
 dotenv.config({ path: "./env" });
 
@@ -22,6 +23,8 @@ app.use(hills);
 app.use(getUser);
 
 app.use(userAuth); //register, login and refresh routes
+
+app.use("/session", handleAccessValidation, session); // logout, deleteUser, updateUser, forgotPassword routes
 
 app.use(handleAccessValidation); // Protect routes below this line
 

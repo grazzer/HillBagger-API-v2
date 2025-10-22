@@ -49,10 +49,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await request(app).post("/logout").set("Cookie", [userACookie]);
-  await request(app).post("/logout").set("Cookie", [userBCookie]);
-  await request(app).delete("/user").set("Cookie", [userACookie]);
-  await request(app).delete("/user").set("Cookie", [userBCookie]);
+  await request(app).delete("/session/deleteUser").set("Cookie", [userACookie]);
+  await request(app).delete("/session/deleteUser").set("Cookie", [userBCookie]);
 });
 
 describe("friend request", () => {
