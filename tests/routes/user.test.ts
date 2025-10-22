@@ -30,12 +30,12 @@ beforeAll(async () => {
     .then((response) => {
       testUserCookie = response.headers["set-cookie"];
     });
-  // TODO: assign user an to an assent
+  // TODO: assign user an to an ascent
 });
 
 afterAll(async () => {
   await request(app)
-    .delete("/session/deleteUser")
+    .delete("/session/profile/deleteUser")
     .set("Cookie", [testUserCookie]);
 });
 
@@ -66,7 +66,7 @@ describe("user search", () => {
               id: expect.any(String),
               name: expect.any(String),
               friendIDs: expect.any(Array),
-              assentIDs: expect.any(Array),
+              ascentIDs: expect.any(Array),
             })
           );
           // expect(
@@ -130,7 +130,7 @@ describe("user search", () => {
     });
   });
 
-  describe("Get user by assent", () => {
+  describe("Get user by ascent", () => {
     it("with no hill ID, should error 422", async () => {
       await request(app)
         .get("/getUser/ByAscent")

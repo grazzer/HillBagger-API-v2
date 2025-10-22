@@ -6,7 +6,7 @@ const selectFields = {
   name: true,
   photo: true,
   friendIDs: true,
-  assentIDs: true,
+  ascentIDs: true,
 };
 
 export async function getUserById(userId: any) {
@@ -43,7 +43,7 @@ export async function getUserByAscent(hillId: string) {
   try {
     const user = await prisma.$transaction([
       prisma.user.findMany({
-        where: { assentIDs: { has: hillId } },
+        where: { ascentIDs: { has: hillId } },
         select: selectFields,
       }),
     ]);

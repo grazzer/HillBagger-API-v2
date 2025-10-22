@@ -18,17 +18,17 @@ model User {
   friends                   User[]   @relation("UserFriend", fields: [friendIDs], references: [id])
   copyFriendIDs             String[] @db.ObjectId
   copyFriends               User[]   @relation("UserFriend", fields: [copyFriendIDs], references: [id])
-  FriendRequestsSentIDs     String[] @db.ObjectId
-  FriendRequestsSent        User[]   @relation("FriendRequest", fields: [FriendRequestsSentIDs], references: [id])
-  FriendRequestsReceivedIDs String[] @db.ObjectId
-  FriendRequestsReceived    User[]   @relation("FriendRequest", fields: [FriendRequestsReceivedIDs], references: [id])
-  BlockedUserIDs            String[] @db.ObjectId
+  friendRequestsSentIDs     String[] @db.ObjectId
+  friendRequestsSent        User[]   @relation("FriendRequest", fields: [friendRequestsSentIDs], references: [id])
+  friendRequestsReceivedIDs String[] @db.ObjectId
+  friendRequestsReceived    User[]   @relation("FriendRequest", fields: [friendRequestsReceivedIDs], references: [id])
+  blockedUserIDs            String[] @db.ObjectId
 
-  assentIDs String[] @db.ObjectId
-  assents   Assent[] @relation(fields: [assentIDs], references: [id])
+  ascentIDs String[] @db.ObjectId
+  ascents   Ascent[] @relation(fields: [ascentIDs], references: [id])
 }
 
-model Assent {
+model Ascent {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
   date            String
   hillID          String

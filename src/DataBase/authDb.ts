@@ -30,7 +30,6 @@ export async function createNewUser(
         email: userEmail,
         password: hashedPassword,
         photo: null,
-        following: [],
       },
     });
     return user;

@@ -1,9 +1,9 @@
 import express from "express";
-import { HandleSearchHills } from "../controllers/hills.js";
+import { HandleSearchHills } from "../services/hills.service.js";
 
 const router = express.Router();
 
-router.get("/hills/:classification", (req, res, next) => {
+router.get("/:classification", (req, res, next) => {
   HandleSearchHills(
     req.params.classification, // classification
     req.query.s, // search

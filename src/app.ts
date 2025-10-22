@@ -3,11 +3,10 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { handleAccessValidation } from "./controllers/accessValidation.js";
-import { router as hills } from "./routes/hills.js";
-import { router as userAuth } from "./routes/auth.js";
-import { router as profile } from "./routes/profile.js";
-import { router as getUser } from "./routes/user.js";
-import { router as session } from "./routes/session.js";
+import { router as hills } from "./routes/hills.route.js";
+import { router as userAuth } from "./routes/auth.route.js";
+import { router as getUser } from "./routes/user.route.js";
+import { router as session } from "./routes/session.route.js";
 
 dotenv.config({ path: "./env" });
 
@@ -19,15 +18,12 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 
-app.use(hills);
-app.use(getUser);
+app.use("/hills", hills);
+app.use("/getUser", getUser);
 
 app.use(userAuth); //register, login and refresh routes
 
-app.use("/session", handleAccessValidation, session); // logout, deleteUser, updateUser, forgotPassword routes
-
-app.use(handleAccessValidation); // Protect routes below this line
-
-app.use(profile);
+// all routes within session require access validation
+app.use("/session", handleAccessValidation, session);
 
 export { app };

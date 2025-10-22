@@ -49,77 +49,81 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await request(app).delete("/session/deleteUser").set("Cookie", [userACookie]);
-  await request(app).delete("/session/deleteUser").set("Cookie", [userBCookie]);
+  await request(app)
+    .delete("/session/profile/deleteUser")
+    .set("Cookie", [userACookie]);
+  await request(app)
+    .delete("/session/profile/deleteUser")
+    .set("Cookie", [userBCookie]);
 });
 
 describe("friend request", () => {
   it("Get profile with no cookie", async () => {
-    const response: any = await request(app).get("/profile");
+    const response: any = await request(app).get("/session/profile");
     expect(response.status).toBe(401);
   });
   it("Put new friend request with no friend ID", async () => {
     const response: any = await request(app)
-      .put("/friend/request")
+      .put("/session/friend/request")
       .set("Cookie", [userACookie]);
     expect(response.status).toBe(422);
   });
   it("Put new friend request with own ID", async () => {
     const response: any = await request(app)
-      .put("/friend/request")
+      .put("/session/friend/request")
       .set("Cookie", [userACookie])
       .send({ friendId: userAid });
     expect(response.status).toBe(400);
   });
   it("Put new friend request with incorrect Id", async () => {
     const response: any = await request(app)
-      .put("/friend/request")
+      .put("/session/friend/request")
       .set("Cookie", [userACookie])
       .send({ friendId: "68eab8103d85d4eb2ce8fd76" });
     expect(response.status).toBe(404);
   });
   it("PUT new request", async () => {
     const response: any = await request(app)
-      .put("/friend/request")
+      .put("/session/friend/request")
       .set("Cookie", [userACookie])
       .send({ friendId: userBid });
     expect(response.status).toBe(200);
-    expect(response.body.data.FriendRequestsSentIDs).toEqual(
+    expect(response.body.data.friendRequestsSentIDs).toEqual(
       expect.arrayContaining([userBid])
     );
     await request(app)
-      .get("/profile")
+      .get("/session/profile")
       .set("Cookie", [userBCookie])
       .then((response2) => {
         expect(response2.status).toBe(200);
-        expect(response2.body.data.FriendRequestsReceivedIDs).toEqual(
+        expect(response2.body.data.friendRequestsReceivedIDs).toEqual(
           expect.arrayContaining([userAid])
         );
       });
   });
   it("Put new friend request with same ID again", async () => {
     const response: any = await request(app)
-      .put("/friend/request")
+      .put("/session/friend/request")
       .set("Cookie", [userACookie])
       .send({ friendId: userBid });
     expect(response.status).toBe(200);
-    const sentIds = response.body.data.FriendRequestsSentIDs;
+    const sentIds = response.body.data.friendRequestsSentIDs;
     const occurrences = sentIds.filter((id: string) => id === userBid).length;
     expect(occurrences).toBe(1);
   });
   it("Delete request", async () => {
     const response: any = await request(app)
-      .delete("/friend/request")
+      .delete("/session/friend/request")
       .set("Cookie", [userACookie])
       .send({ friendId: userBid });
     expect(response.status).toBe(200);
-    const sentIds = response.body.data.FriendRequestsSentIDs;
+    const sentIds = response.body.data.friendRequestsSentIDs;
     const occurrences = sentIds.filter((id: string) => id === userBid).length;
     expect(occurrences).toBe(0);
   });
   it("Delete non-existent request", async () => {
     await request(app)
-      .delete("/friend/request")
+      .delete("/session/friend/request")
       .set("Cookie", [userACookie])
       .send({ friendId: userBid })
       .then((response) => {
@@ -128,11 +132,11 @@ describe("friend request", () => {
   });
   it("accept own friend request/ non-existent friend request", async () => {
     await request(app)
-      .put("/friend/request")
+      .put("/session/friend/request")
       .set("Cookie", [userACookie])
       .send({ friendId: userBid });
     await request(app)
-      .put("/friend/acceptRequest")
+      .put("/session/friend/acceptRequest")
       .set("Cookie", [userACookie])
       .send({ friendId: userBid })
       .then((response) => {
@@ -141,7 +145,7 @@ describe("friend request", () => {
   });
   it("accept friend request", async () => {
     await request(app)
-      .put("/friend/acceptRequest")
+      .put("/session/friend/acceptRequest")
       .set("Cookie", [userBCookie])
       .send({ friendId: userAid })
       .then((response) => {
@@ -151,7 +155,7 @@ describe("friend request", () => {
         );
       });
     await request(app)
-      .get("/profile")
+      .get("/session/profile")
       .set("Cookie", [userACookie])
       .then((response2) => {
         expect(response2.status).toBe(200);
@@ -162,7 +166,7 @@ describe("friend request", () => {
   });
   it("remove friend", async () => {
     await request(app)
-      .delete("/friend/remove")
+      .delete("/session/friend/remove")
       .set("Cookie", [userACookie])
       .send({ friendId: userBid })
       .then((response) => {
@@ -177,7 +181,7 @@ describe("friend request", () => {
   // is this bad practice?
   it("remove non-friend", async () => {
     await request(app)
-      .delete("/friend/remove")
+      .delete("/session/friend/remove")
       .set("Cookie", [userACookie])
       .send({ friendId: userBid })
       .then((response) => {
@@ -186,12 +190,12 @@ describe("friend request", () => {
   });
   it("block user", async () => {
     await request(app)
-      .put("/blockUser")
+      .put("/session/friend/blockUser")
       .set("Cookie", [userACookie])
       .send({ blockUserId: userBid })
       .then((response) => {
         expect(response.status).toBe(200);
-        expect(response.body.data.BlockedUserIDs).toEqual(
+        expect(response.body.data.blockedUserIDs).toEqual(
           expect.arrayContaining([userBid])
         );
         expect(response.body.data.friendIDs).toEqual(
@@ -201,7 +205,7 @@ describe("friend request", () => {
   });
   it("block user again", async () => {
     await request(app)
-      .put("/blockUser")
+      .put("/session/friend/blockUser")
       .set("Cookie", [userACookie])
       .send({ blockUserId: userBid })
       .then((response) => {
@@ -209,10 +213,10 @@ describe("friend request", () => {
       });
 
     await request(app)
-      .get("/profile")
+      .get("/session/profile")
       .set("Cookie", [userACookie])
       .then((response) => {
-        const blockedIds = response.body.data.BlockedUserIDs;
+        const blockedIds = response.body.data.blockedUserIDs;
         const occurrences = blockedIds.filter(
           (id: string) => id === userBid
         ).length;
@@ -221,7 +225,7 @@ describe("friend request", () => {
   });
   it("request friend from blocked user", async () => {
     await request(app)
-      .put("/friend/request")
+      .put("/session/friend/request")
       .set("Cookie", [userBCookie])
       .send({ friendId: userAid })
       .then((response) => {
@@ -230,7 +234,7 @@ describe("friend request", () => {
   });
   it("request friend from user you block", async () => {
     await request(app)
-      .put("/friend/request")
+      .put("/session/friend/request")
       .set("Cookie", [userACookie])
       .send({ friendId: userBid })
       .then((response) => {
@@ -239,19 +243,19 @@ describe("friend request", () => {
   });
   it("unblock user", async () => {
     await request(app)
-      .delete("/unblockUser")
+      .delete("/session/friend/unblockUser")
       .set("Cookie", [userACookie])
       .send({ blockUserId: userBid })
       .then((response) => {
         expect(response.status).toBe(200);
-        expect(response.body.data.BlockedUserIDs).toEqual(
+        expect(response.body.data.blockedUserIDs).toEqual(
           expect.not.arrayContaining([userBid])
         );
       });
   });
   it("unblock non-blocked user", async () => {
     await request(app)
-      .delete("/unblockUser")
+      .delete("/session/friend/unblockUser")
       .set("Cookie", [userACookie])
       .send({ blockUserId: userBid })
       .then((response) => {
@@ -260,19 +264,19 @@ describe("friend request", () => {
   });
   it("request friend after unblocking user", async () => {
     await request(app)
-      .put("/friend/request")
+      .put("/session/friend/request")
       .set("Cookie", [userACookie])
       .send({ friendId: userBid })
       .then((response) => {
         expect(response.status).toBe(200);
-        expect(response.body.data.FriendRequestsSentIDs).toEqual(
+        expect(response.body.data.friendRequestsSentIDs).toEqual(
           expect.arrayContaining([userBid])
         );
       });
   });
   it("block friend", async () => {
     await request(app)
-      .put("/blockUser")
+      .put("/session/friend/blockUser")
       .set("Cookie", [userACookie])
       .send({ blockUserId: userBid })
       .then((response) => {

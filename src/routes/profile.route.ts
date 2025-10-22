@@ -1,19 +1,18 @@
 import express from "express";
 import {
-  HandleLogoutUser,
+  HandleGetProfile,
   HandleDeleteUser,
   HandleUpdateUserInfo,
   HandleForgotPassword,
-} from "../controllers/session.js";
-import { router as profile } from "./profile.js";
+} from "../controllers/profile.controller.js";
 
 const router = express.Router();
 
-router.post("/logout", HandleLogoutUser);
+// /session/profile routes
+
+router.get("/", HandleGetProfile);
 router.delete("/deleteUser", HandleDeleteUser);
 router.put("/updateUser", HandleUpdateUserInfo);
 router.post("/forgotPassword", HandleForgotPassword);
-
-router.use("/profile", profile);
 
 export { router };

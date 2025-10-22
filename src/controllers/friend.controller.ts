@@ -21,9 +21,9 @@ async function HandleFriendRequest(req: Request, res: Response) {
   try {
     getUserById(req.body.friendId).then((friend) => {
       if (friend) {
-        if (friend.BlockedUserIDs.includes(res.locals.userId) == false) {
+        if (friend.blockedUserIDs.includes(res.locals.userId) == false) {
           getUserById(res.locals.userId).then((user) => {
-            if (user?.BlockedUserIDs.includes(req.body.friendId) == false) {
+            if (user?.blockedUserIDs.includes(req.body.friendId) == false) {
               if (friend.friendIDs.includes(res.locals.userId) == false) {
                 requestFriendConnection(
                   res.locals.userId,
@@ -73,7 +73,7 @@ async function HandleFriendRequest(req: Request, res: Response) {
 async function HandleRemoveFriendRequest(req: Request, res: Response) {
   try {
     getUserById(res.locals.userId).then((user) => {
-      if (user?.FriendRequestsSentIDs.includes(req.body.friendId) == true) {
+      if (user?.friendRequestsSentIDs.includes(req.body.friendId) == true) {
         requestFriendDisconnection(res.locals.userId, req.body.friendId).then(
           (user) => {
             return res.status(200).json({
@@ -103,7 +103,7 @@ async function HandleAcceptFriendRequest(req: Request, res: Response) {
   //TODO:  check if request exists
   try {
     getUserById(res.locals.userId).then((user) => {
-      if (user?.FriendRequestsReceivedIDs.includes(req.body.friendId)) {
+      if (user?.friendRequestsReceivedIDs.includes(req.body.friendId)) {
         requestFriendDisconnection(res.locals.userId, req.body.friendId).then(
           () => {
             connectFriend(res.locals.userId, req.body.friendId).then((user) => {
@@ -174,7 +174,7 @@ async function HandleBlockUser(req: Request, res: Response) {
   try {
     getUserById(res.locals.userId).then((user) => {
       if (user) {
-        const index = user.BlockedUserIDs.findIndex(
+        const index = user.blockedUserIDs.findIndex(
           (ID: string) => ID === req.body.blockUserId
         );
         if (index == -1) {
@@ -213,11 +213,11 @@ async function HandleUnblockUser(req: Request, res: Response) {
   try {
     getUserById(res.locals.userId).then((user) => {
       if (user) {
-        const index = user.BlockedUserIDs.findIndex(
+        const index = user.blockedUserIDs.findIndex(
           (ID: string) => ID === req.body.blockUserId
         );
         if (index >= 0) {
-          const newBlockedList = user.BlockedUserIDs;
+          const newBlockedList = user.blockedUserIDs;
           newBlockedList.splice(index, 1);
           removeBlockedUser(res.locals.userId, newBlockedList).then((user) => {
             return res.status(200).json({

@@ -3,30 +3,30 @@ import {
   handleUserById,
   handleUserByAscent,
   handleUserByName,
-} from "../controllers/user.js";
+} from "../controllers/user.controller.js";
 import handleValidationErrors from "../middleware/handleValidationErrors.js";
 import {
   validateUserSearchID,
   validateUserSearchName,
   validateUserSearchAscent,
-} from "../middleware/valadationUserSearch.js";
+} from "../middleware/validationUserSearch.js";
 
 const router = express.Router();
 
 router.get(
-  "/getUser/ById",
+  "/ById",
   validateUserSearchID,
   handleValidationErrors,
   handleUserById
 );
 router.get(
-  "/getUser/ByName",
+  "/ByName",
   validateUserSearchName,
   handleValidationErrors,
   handleUserByName
 );
 router.get(
-  "/getUser/ByAscent",
+  "/ByAscent",
   validateUserSearchAscent,
   handleValidationErrors,
   handleUserByAscent

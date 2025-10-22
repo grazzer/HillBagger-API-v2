@@ -58,7 +58,7 @@ export async function requestFriendConnection(
     const user = await prisma.user.update({
       where: { id: userId },
       data: {
-        FriendRequestsSent: { connect: [{ id: friendId }] },
+        friendRequestsSent: { connect: [{ id: friendId }] },
       },
     });
     return user;
@@ -76,8 +76,8 @@ export async function requestFriendDisconnection(
     const user = await prisma.user.update({
       where: { id: userId },
       data: {
-        FriendRequestsReceived: { disconnect: [{ id: friendId }] },
-        FriendRequestsSent: { disconnect: [{ id: friendId }] },
+        friendRequestsReceived: { disconnect: [{ id: friendId }] },
+        friendRequestsSent: { disconnect: [{ id: friendId }] },
       },
     });
     return user;
@@ -92,10 +92,10 @@ export async function addBlockedUser(userId: string, blockedId: string) {
     const user = await prisma.user.update({
       where: { id: userId },
       data: {
-        FriendRequestsReceived: { disconnect: [{ id: blockedId }] },
-        FriendRequestsSent: { disconnect: [{ id: blockedId }] },
+        friendRequestsReceived: { disconnect: [{ id: blockedId }] },
+        friendRequestsSent: { disconnect: [{ id: blockedId }] },
         friends: { disconnect: [{ id: blockedId }] },
-        BlockedUserIDs: { push: blockedId },
+        blockedUserIDs: { push: blockedId },
       },
     });
     return user;
@@ -110,7 +110,7 @@ export async function removeBlockedUser(userId: string, blockedIds: string[]) {
     const user = await prisma.user.update({
       where: { id: userId },
       data: {
-        BlockedUserIDs: { set: blockedIds },
+        blockedUserIDs: { set: blockedIds },
       },
     });
     return user;
