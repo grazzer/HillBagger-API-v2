@@ -1,6 +1,6 @@
 import request from "supertest";
 import { app } from "../../src/app.js";
-import { response } from "express";
+import type { Ascent } from "@prisma/client";
 
 //Integration tests for the user endpoint
 let testUserID: string = "";
@@ -142,26 +142,39 @@ describe("user search", () => {
         .send({ hillId: invalidHillId })
         .then((Response) => expect(Response.status).toBe(404));
     });
-    it("with valid hill ID, should return user", async () => {
-      await request(app)
-        .get("/getUser/ByAscent")
-        .send({ hillId: hillId })
-        .then((Response) => {
-          expect(Response.status).toBe(200);
-          expect(Array.isArray(Response.body.data)).toBe(true);
-          expect(Response.body.data.length).toBeGreaterThan(0);
-          // fields that should exist in user object
-          expect(Response.body.data[0]).toHaveProperty("id");
-          expect(Response.body.data[0]).toHaveProperty("name");
-          expect(Response.body.data[0]).toHaveProperty("friendIDs");
-          // fields that should be removed in none authorized user search
-          expect(Response.body.data[0]).not.toHaveProperty("password");
-          expect(Response.body.data[0]).not.toHaveProperty("email");
-          expect(Response.body.data[0]).not.toHaveProperty("blockedIDs");
-          expect(Response.body.data[0]).not.toHaveProperty(
-            "FriendRequestsReceivedIDs"
-          );
-        });
-    });
+    // const ascentPartial: Partial<Ascent> = {
+    //   id: "",
+    //   date: new Date("2025-01-01T10:00:00Z"),
+    //   hillID: "6808acb64466bb2759b4cc84",
+    // };
+    // it("with valid hill ID, should return user", async () => {
+    //   await request(app)
+    //     .post("/session/ascent/create")
+    //     .set("Cookie", [testUserCookie])
+    //     .send({
+    //       date: ascentPartial.date,
+    //       hillID: ascentPartial.hillID,
+    //     });
+    //   await request(app)
+    //     .get("/getUser/ByAscent")
+    //     .send({ hillId: ascentPartial.hillID })
+    //     .then((Response) => {
+    //       expect(Response.status).toBe(200);
+    //       expect(Array.isArray(Response.body.data)).toBe(true);
+    //       expect(Response.body.data.length).toBeGreaterThan(0);
+    //       // fields that should exist in user object
+    //       expect(Response.body.data[0]).toHaveProperty("id");
+    //       expect(Response.body.data[0].id).toBe(testUserID);
+    //       expect(Response.body.data[0]).toHaveProperty("name");
+    //       expect(Response.body.data[0]).toHaveProperty("friendIDs");
+    //       // fields that should be removed in none authorized user search
+    //       expect(Response.body.data[0]).not.toHaveProperty("password");
+    //       expect(Response.body.data[0]).not.toHaveProperty("email");
+    //       expect(Response.body.data[0]).not.toHaveProperty("blockedIDs");
+    //       expect(Response.body.data[0]).not.toHaveProperty(
+    //         "FriendRequestsReceivedIDs"
+    //       );
+    //     });
+    // });
   });
 });

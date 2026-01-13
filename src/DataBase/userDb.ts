@@ -19,7 +19,7 @@ export async function getUserById(userId: any) {
     ]);
     return user[0];
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 }
 

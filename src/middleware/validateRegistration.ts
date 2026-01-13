@@ -15,11 +15,7 @@ const ValidateRegistration = [
     .withMessage(
       "Password must contain at least one uppercase letter, one lowercase letter, one number, and one symbol"
     ),
-  body("name")
-    .notEmpty()
-    .withMessage("Name is required")
-    .isLength({ min: 3 })
-    .withMessage("Name must be at least 3 characters long"),
+  body("name").notEmpty().withMessage("Name must be at least 1 character long"),
 ];
 
 export default ValidateRegistration;

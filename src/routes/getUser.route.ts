@@ -13,6 +13,8 @@ import {
 
 const router = express.Router();
 
+// route /getUser
+
 router.get(
   "/ById",
   validateUserSearchID,

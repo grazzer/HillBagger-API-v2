@@ -1,6 +1,8 @@
 import request from "supertest";
 import { app } from "../../src/app.js";
 
+//TODO: separate out friends tests into their own file
+
 //Integration tests for the profile endpoint
 let userAid: string = "";
 let userBid: string = "";

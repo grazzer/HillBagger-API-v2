@@ -8,11 +8,11 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  photo     String?
-  email     String   @unique
-  password  String
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  photo    String?
+  email    String  @unique
+  password String
 
   friendIDs                 String[] @db.ObjectId
   friends                   User[]   @relation("UserFriend", fields: [friendIDs], references: [id])
@@ -24,21 +24,32 @@ model User {
   friendRequestsReceived    User[]   @relation("FriendRequest", fields: [friendRequestsReceivedIDs], references: [id])
   blockedUserIDs            String[] @db.ObjectId
 
-  ascentIDs String[] @db.ObjectId
-  ascents   Ascent[] @relation(fields: [ascentIDs], references: [id])
+  pendingAscentIDs   String[] @db.ObjectId
+  pendingAscents     Ascent[] @relation("pendingAscent", fields: [pendingAscentIDs], references: [id])
+  ascentIDs          String[] @db.ObjectId
+  ascents            Ascent[] @relation("ascent", fields: [ascentIDs], references: [id])
+  requestedAscentIDs String[] @db.ObjectId
+  requestedAscents   Ascent[] @relation("requestJoinAscent", fields: [requestedAscentIDs], references: [id])
 }
 
 model Ascent {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  date            String
-  hillID          String
-  time            String
-  weather         String
-  distance        Float
-  notes           String
-  photos          String[]
-  groupMembersIDs String[] @db.ObjectId
-  groupMembers    User[]   @relation(fields: [groupMembersIDs], references: [id])
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  date     DateTime
+  hillID   String   @db.ObjectId
+  time     Int?
+  weather  String?
+  distance Float?
+  notes    String?
+  photos   String[]
+
+  nonUserGroupMembers String[]
+
+  pendingGroupMembersIDs   String[] @db.ObjectId
+  pendingGroupMembers      User[]   @relation("pendingAscent", fields: [pendingGroupMembersIDs], references: [id])
+  groupMembersIDs          String[] @db.ObjectId
+  groupMembers             User[]   @relation("ascent", fields: [groupMembersIDs], references: [id])
+  requestedGroupMembersIDs String[] @db.ObjectId
+  requestedGroupMembers    User[]   @relation("requestJoinAscent", fields: [requestedGroupMembersIDs], references: [id])
 }
 
 model hills {
