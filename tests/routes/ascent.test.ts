@@ -126,7 +126,6 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  console.log("Deleting test users...");
   await request(app)
     .delete("/session/profile/deleteUser")
     .set("Cookie", [userA.cookie]);

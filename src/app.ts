@@ -2,8 +2,7 @@ import express, { Express } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { normalizeEmptyStrings } from "./middleware/normalizeEmptyStrings.js";
-import { handleAccessValidation } from "./controllers/accessValidation.js";
+import { handleAccessValidation } from "./controllers/auth.controller.js";
 import { router as getHills } from "./routes/getHills.route.js";
 import { router as getUser } from "./routes/getUser.route.js";
 import { router as getAscent } from "./routes/getAscent.route.js";
@@ -20,7 +19,6 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-// app.use(normalizeEmptyStrings);
 
 app.use("/hills", getHills);
 app.use("/getUser", getUser);

@@ -4,7 +4,7 @@ import { validationResult } from "express-validator";
 const handleValidationErrors = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<any> | void => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

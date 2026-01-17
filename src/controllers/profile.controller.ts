@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { getProfile, deleteUser } from "../DataBase/profileDb.js";
+import { getUserById } from "../DataBase/userDb.js";
 
 export async function HandleGetProfile(req: Request, res: Response) {
   try {
@@ -28,19 +29,22 @@ export async function HandleGetProfile(req: Request, res: Response) {
 
 export async function HandleDeleteUser(req: Request, res: Response) {
   try {
-    deleteUser(res.locals.userId).then((success) => {
-      if (success) {
-        return res.status(200).json({
-          success: true,
-          message: "User successfully deleted",
-        });
-      } else {
-        return res.status(404).json({
-          success: false,
-          message: "User not found",
-        });
-      }
-    });
+    const user = await getUserById(res.locals.userId);
+    if (!user) {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+      return;
+    }
+    const response = await deleteUser(res.locals.userId);
+    if (response) {
+      res.status(200).json({
+        success: true,
+        message: "User successfully deleted",
+      });
+      return;
+    }
   } catch {
     res.status(500).json({
       success: false,

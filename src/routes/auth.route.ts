@@ -1,9 +1,15 @@
 import express from "express";
-import ValidateRegistration from "../middleware/validateRegistration.js";
-import ValidateLogin from "../middleware/validateLogin.js";
-import { handleUserRefresh } from "../controllers/userRefresh.js";
-import { handleUserRegister } from "../controllers/userRegistration.js";
-import { handleUserLogin } from "../controllers/userLogin.js";
+// import ValidateRegistration from "../middleware/validateRegistration.js";
+// import ValidateLogin from "../middleware/validateLogin.js";
+import {
+  ValidateRegistration,
+  ValidateLogin,
+} from "../middleware/validation/AuthValidationChains.js";
+import {
+  handleUserLogin,
+  handleUserRefresh,
+  handleUserRegister,
+} from "../controllers/auth.controller.js";
 import handleValidationErrors from "../middleware/handleValidationErrors.js";
 
 const router = express.Router();
