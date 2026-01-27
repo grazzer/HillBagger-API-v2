@@ -3,6 +3,8 @@ import { authorizeUser, registerUser } from "../DataBase/authDb.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "@prisma/client";
+import { logger, sessionLogger } from "../logging/Loggers.js";
+import { log } from "console";
 
 const key = process.env.SECRET_ACCESS_TOKEN as string;
 const isProduction = process.env.NODE_ENV === "production";
@@ -59,9 +61,10 @@ export async function handleAccessValidation(
     const userId = jwt.verify(accessToken, key) as { id: string };
 
     res.locals.userId = userId.id;
+    sessionLogger.updateUserId(userId.id);
+    sessionLogger.info("Access token validated successfully");
     return next();
   } catch (error) {
-    console.error("Error validating user:", error);
     if (error instanceof jwt.JsonWebTokenError) {
       if (error.message === "jwt expired") {
         res.status(401).json({
@@ -70,12 +73,14 @@ export async function handleAccessValidation(
         });
         return;
       }
+      logger.warn("someone tried to use an invalid access token to validate");
       res.status(401).json({
         success: false,
         message: "Invalid access token.",
       });
       return;
     }
+    logger.error("Error validating user:", error);
     res.status(500).json({
       success: false,
       message: "Invalid access token.",
@@ -99,6 +104,7 @@ export async function handleUserRegister(req: Request, res: Response) {
     const { password: newUserPassword, ...newUserData } = newUser as User;
     // check if new user was created
     if (newUser) {
+      logger.info(`New user registered with ID: ${newUserData.id}`);
       res.status(201).json({
         data: newUserData,
         success: true,
@@ -111,7 +117,7 @@ export async function handleUserRegister(req: Request, res: Response) {
       message: "no changes were made",
     });
   } catch (error) {
-    console.error("Error registering user:", error);
+    logger.error("Error registering user:", error);
     res.status(500).json({
       success: false,
       message: "Internal server error.",
@@ -159,7 +165,7 @@ export async function handleUserLogin(req: Request, res: Response) {
       data: userData,
     });
   } catch (error) {
-    console.error("Error userLogin:", error);
+    logger.error("Error userLogin:", error);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -195,7 +201,6 @@ export async function handleUserRefresh(req: Request, res: Response) {
       message: "Token refreshed successfully.",
     });
   } catch (error) {
-    console.error("Error user refresh:", error);
     if (error instanceof jwt.JsonWebTokenError) {
       if (error.message === "jwt expired") {
         res.status(401).json({
@@ -204,12 +209,14 @@ export async function handleUserRefresh(req: Request, res: Response) {
         });
         return;
       }
+      logger.warn("someone tried to use an invalid refresh token to refresh");
       res.status(401).json({
         success: false,
         message: "Invalid refresh token.",
       });
       return;
     }
+    logger.error("Error user refresh:", error);
     res.status(500).json({
       success: false,
       message: "Internal server error.",
