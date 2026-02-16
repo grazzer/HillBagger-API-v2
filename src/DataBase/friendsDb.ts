@@ -1,20 +1,24 @@
+import { User } from "@prisma/client";
 import { prisma } from "./connectDb.js";
+import { sessionLogger } from "../logging/Loggers.js";
 
 // for internal use only for checking blocked users and friend request lists
-export async function getUserById(userId: any) {
+export async function getUserById(userId: any): Promise<User | null> {
   try {
-    const user = await prisma.$transaction([
-      prisma.user.findFirst({
-        where: { id: userId },
-      }),
-    ]);
-    return user[0];
+    const user = await prisma.user.findFirst({
+      where: { id: userId },
+    });
+    return user;
   } catch (error) {
+    sessionLogger.error("error getUserById", error);
     throw error;
   }
 }
 
-export async function connectFriend(userId: string, friendId: string) {
+export async function connectFriend(
+  userId: string,
+  friendId: string,
+): Promise<User> {
   try {
     const user = await prisma.user.update({
       where: { id: userId },
@@ -29,10 +33,16 @@ export async function connectFriend(userId: string, friendId: string) {
       },
     });
     return user;
-  } catch (error) {}
+  } catch (error) {
+    sessionLogger.error("error getUserById", error);
+    throw error;
+  }
 }
 
-export async function disconnectFriend(userId: string, friendId: string) {
+export async function disconnectFriend(
+  userId: string,
+  friendId: string,
+): Promise<User> {
   try {
     const user = await prisma.user.update({
       where: { id: userId },
@@ -47,13 +57,16 @@ export async function disconnectFriend(userId: string, friendId: string) {
       },
     });
     return user;
-  } catch (error) {}
+  } catch (error) {
+    sessionLogger.error("error getUserById", error);
+    throw error;
+  }
 }
 
 export async function requestFriendConnection(
   userId: string,
-  friendId: string
-) {
+  friendId: string,
+): Promise<User> {
   try {
     const user = await prisma.user.update({
       where: { id: userId },
@@ -63,15 +76,15 @@ export async function requestFriendConnection(
     });
     return user;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error getUserById", error);
     throw error;
   }
 }
 
 export async function requestFriendDisconnection(
   userId: string,
-  friendId: string
-) {
+  friendId: string,
+): Promise<User> {
   try {
     const user = await prisma.user.update({
       where: { id: userId },
@@ -82,12 +95,15 @@ export async function requestFriendDisconnection(
     });
     return user;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error getUserById", error);
     throw error;
   }
 }
 
-export async function addBlockedUser(userId: string, blockedId: string) {
+export async function addBlockedUser(
+  userId: string,
+  blockedId: string,
+): Promise<User> {
   try {
     const user = await prisma.user.update({
       where: { id: userId },
@@ -95,17 +111,21 @@ export async function addBlockedUser(userId: string, blockedId: string) {
         friendRequestsReceived: { disconnect: [{ id: blockedId }] },
         friendRequestsSent: { disconnect: [{ id: blockedId }] },
         friends: { disconnect: [{ id: blockedId }] },
+        copyFriends: { disconnect: [{ id: blockedId }] },
         blockedUserIDs: { push: blockedId },
       },
     });
     return user;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error getUserById", error);
     throw error;
   }
 }
 
-export async function removeBlockedUser(userId: string, blockedIds: string[]) {
+export async function removeBlockedUser(
+  userId: string,
+  blockedIds: string[],
+): Promise<User> {
   try {
     const user = await prisma.user.update({
       where: { id: userId },
@@ -115,7 +135,7 @@ export async function removeBlockedUser(userId: string, blockedIds: string[]) {
     });
     return user;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error getUserById", error);
     throw error;
   }
 }

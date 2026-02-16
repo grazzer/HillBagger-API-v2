@@ -1,7 +1,5 @@
 import express from "express";
 import {
-  accept,
-  reject,
   handleCreateAscent,
   handleRequestJoinExistingAscent,
   handleResponseToUserRequestingToJoinAscent,
@@ -20,7 +18,8 @@ import {
   ValidateRemoveInvitedUser,
   ValidateUpdateAscent,
   ValidateLeaveAscent,
-} from "../middleware/validateAscent.js";
+} from "../middleware/validation/ascentValidationChains.js";
+import { accept, reject } from "../middleware/accept-reject.js";
 import handleValidationErrors from "../middleware/handleValidationErrors.js";
 
 const router = express.Router();
@@ -31,34 +30,34 @@ router.post(
   "/create",
   ValidateCreateAscent,
   handleValidationErrors,
-  handleCreateAscent
+  handleCreateAscent,
 );
 
 router.put(
   "/join/request",
   ValidateJoinRequest,
   handleValidationErrors,
-  handleRequestJoinExistingAscent
+  handleRequestJoinExistingAscent,
 );
 router.put(
   "/join/accept",
   ValidateRespondToJoinRequest,
   handleValidationErrors,
   accept,
-  handleResponseToUserRequestingToJoinAscent
+  handleResponseToUserRequestingToJoinAscent,
 );
 router.put(
   "/join/reject",
   ValidateRespondToJoinRequest,
   handleValidationErrors,
   reject,
-  handleResponseToUserRequestingToJoinAscent
+  handleResponseToUserRequestingToJoinAscent,
 );
 router.delete(
   "/join/remove",
   ValidateRemoveJoinRequest,
   handleValidationErrors,
-  handleRemoveRequestToJoinAscent
+  handleRemoveRequestToJoinAscent,
 );
 
 router.put(
@@ -66,33 +65,33 @@ router.put(
   ValidateRespondToInvite,
   handleValidationErrors,
   accept,
-  handleResponseToUserInvitedToJoinAscent
+  handleResponseToUserInvitedToJoinAscent,
 );
 router.put(
   "/invite/reject",
   ValidateRespondToInvite,
   handleValidationErrors,
   reject,
-  handleResponseToUserInvitedToJoinAscent
+  handleResponseToUserInvitedToJoinAscent,
 );
 router.delete(
   "/invite/remove",
   ValidateRemoveInvitedUser,
   handleValidationErrors,
-  handleRemoveInvitedUser
+  handleRemoveInvitedUser,
 );
 
 router.put(
   "/update",
   ValidateUpdateAscent,
   handleValidationErrors,
-  handleUpdateAscent
+  handleUpdateAscent,
 );
 router.delete(
   "/leave",
   ValidateLeaveAscent,
   handleValidationErrors,
-  handleLeaveAscent
+  handleLeaveAscent,
 ); // if last to leave it will delete the ascent
 
 export { router };

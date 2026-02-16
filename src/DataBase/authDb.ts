@@ -1,7 +1,9 @@
+import { User } from "@prisma/client";
 import { prisma } from "./connectDb.js";
 import bcrypt from "bcrypt";
+import { sessionLogger } from "../logging/Loggers.js";
 
-export async function authorizeUser(userEmail: string) {
+export async function authorizeUser(userEmail: string): Promise<User | null> {
   try {
     const user = await prisma.$transaction([
       prisma.user.findFirst({
@@ -13,6 +15,7 @@ export async function authorizeUser(userEmail: string) {
     ]);
     return user[0];
   } catch (error) {
+    sessionLogger.error("error authorize user Db:", error);
     throw error;
   }
 }
@@ -20,8 +23,8 @@ export async function authorizeUser(userEmail: string) {
 export async function registerUser(
   userName: string,
   userEmail: string,
-  password: string
-) {
+  password: string,
+): Promise<User> {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
@@ -34,6 +37,7 @@ export async function registerUser(
     });
     return user;
   } catch (error) {
+    sessionLogger.error("error register user Db:", error);
     throw error;
   }
 }

@@ -1,10 +1,11 @@
 import express from "express";
 // import ValidateRegistration from "../middleware/validateRegistration.js";
 // import ValidateLogin from "../middleware/validateLogin.js";
+
 import {
   ValidateRegistration,
   ValidateLogin,
-} from "../middleware/validation/AuthValidationChains.js";
+} from "../middleware/validation/authValidationChains.js";
 import {
   handleUserLogin,
   handleUserRefresh,
@@ -18,7 +19,7 @@ router.post(
   "/register",
   ValidateRegistration,
   handleValidationErrors,
-  handleUserRegister
+  handleUserRegister,
 );
 router.post("/login", ValidateLogin, handleValidationErrors, handleUserLogin);
 

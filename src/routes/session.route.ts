@@ -14,4 +14,15 @@ router.use("/profile", profile);
 router.use("/friend", friend);
 router.use("/ascent", ascent);
 
+// router.use(accept);
+
 export { router };
+
+import { Request, Response } from "express";
+
+// function accept(req: Request, res: Response) {
+//   res.status(422).json({
+//     message: `this route dose not exists`,
+//   });
+//   return;
+// }

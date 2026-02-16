@@ -43,7 +43,7 @@ export const logger = winston.createLogger({
     // prettyPrint(),
   ),
   transports: [
-    new winston.transports.Console(),
+    // new winston.transports.Console(),
     combinedTransport,
     errorTransport,
   ],

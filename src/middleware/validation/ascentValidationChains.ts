@@ -1,14 +1,6 @@
 import { body } from "express-validator";
 import { ObjectId } from "mongodb";
-
-const validateID = (IdName: string) =>
-  body(IdName)
-    .notEmpty()
-    .withMessage(`${IdName} is required`)
-    .isHexadecimal()
-    .withMessage(`${IdName} must be a hexadecimal string`)
-    .isByteLength({ min: 24, max: 24 })
-    .withMessage(`${IdName} must be 24 bytes long`);
+import { validateID } from "./Links.js";
 
 const validateAscent = [
   body("date")

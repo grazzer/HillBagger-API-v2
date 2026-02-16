@@ -12,6 +12,8 @@ const router = express.Router();
 
 router.get("/", HandleGetProfile);
 router.delete("/deleteUser", HandleDeleteUser);
+
+// TODO: not implemented yet
 router.put("/updateUser", HandleUpdateUserInfo);
 router.post("/forgotPassword", HandleForgotPassword);
 

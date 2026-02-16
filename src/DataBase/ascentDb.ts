@@ -1,3 +1,4 @@
+import { sessionLogger } from "../logging/Loggers.js";
 import { prisma } from "./connectDb.js";
 import type { Ascent } from "@prisma/client";
 
@@ -10,19 +11,17 @@ export async function getAscentByID(ascentId: string): Promise<any> {
     });
     return ascent;
   } catch (error) {
-    console.log(error);
-    throw error;
+    sessionLogger.error("error getUserById Db:", error);
   }
 }
 
-// TODO: if no data to update remove field from data object
 export async function createAscent(
   userId: string,
   newAscent: Partial<Ascent> & {
     hillID: string;
     date: Date;
-  }
-) {
+  },
+): Promise<Ascent> {
   const data: any = {
     date: newAscent.date,
     hillID: newAscent.hillID,
@@ -45,18 +44,13 @@ export async function createAscent(
       connect: newAscent.pendingGroupMembersIDs.map((id) => ({ id })),
     };
   }
-  // if (newAscent.pendingGroupMembersIDs !== undefined) {
-  //   data.pendingGroupMembers = {
-  //     connect: newAscent.pendingGroupMembersIDs.map((id) => ({ id: id })),
-  //   };
-  // }
   try {
     const ascent = await prisma.ascent.create({
       data,
     });
     return ascent;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error create ascent Db:", error);
     throw error;
   }
 }
@@ -65,8 +59,8 @@ export async function findSimilarAscent(
   userId: string,
   date: Date,
   hillID: string,
-  groupMembersIDs: string[]
-) {
+  groupMembersIDs: string[],
+): Promise<Ascent[]> {
   try {
     const ascent = await prisma.ascent.findMany({
       where: {
@@ -90,14 +84,14 @@ export async function findSimilarAscent(
     });
     return ascent;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error find similar ascent Db:", error);
     throw error;
   }
 }
 
 export async function requestJoiningAscentGroup(
   userId: string,
-  ascentId: string
+  ascentId: string,
 ): Promise<Ascent> {
   try {
     const ascent = await prisma.ascent.update({
@@ -110,14 +104,14 @@ export async function requestJoiningAscentGroup(
     });
     return ascent;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error requesting join ascent Db:", error);
     throw error;
   }
 }
 
 export async function removeRequestToJoinAscent(
   userId: string,
-  ascentId: string
+  ascentId: string,
 ): Promise<Ascent> {
   try {
     const ascent = await prisma.ascent.update({
@@ -130,7 +124,7 @@ export async function removeRequestToJoinAscent(
     });
     return ascent;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error remove request to join Db:", error);
     throw error;
   }
 }
@@ -139,8 +133,8 @@ export async function updateRequestedUserToAscent(
   acceptUser: boolean = true, // conditional to add or remove member
   userId: string,
   ascentId: string,
-  userIdToAdd: string
-) {
+  userIdToAdd: string,
+): Promise<Ascent> {
   try {
     const data = {
       requestedGroupMembers: { disconnect: { id: userIdToAdd } },
@@ -159,7 +153,7 @@ export async function updateRequestedUserToAscent(
     });
     return ascent;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error updating request user to ascent Db:", error);
     throw error;
   }
 }
@@ -167,8 +161,8 @@ export async function updateRequestedUserToAscent(
 export async function updatePendingUserToAscent(
   acceptUser: boolean,
   userId: string,
-  ascentId: string
-) {
+  ascentId: string,
+): Promise<Ascent> {
   try {
     const data: any = {
       pendingGroupMembers: { disconnect: { id: userId } },
@@ -186,7 +180,7 @@ export async function updatePendingUserToAscent(
     });
     return ascent;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error updatePendingUserToAscent Db:", error);
     throw error;
   }
 }
@@ -194,8 +188,8 @@ export async function updatePendingUserToAscent(
 export async function removePendingUserToAscent(
   userId: string,
   ascentId: string,
-  removeUserID: string
-) {
+  removeUserID: string,
+): Promise<Ascent> {
   try {
     const ascent = await prisma.ascent.update({
       where: {
@@ -209,13 +203,15 @@ export async function removePendingUserToAscent(
     });
     return ascent;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error removePendingUserToAscent Db:", error);
     throw error;
   }
 }
 
-// TODO: if no data to update remove field from data object
-export async function updateAscent(userId: string, newAscent: Partial<Ascent>) {
+export async function updateAscent(
+  userId: string,
+  newAscent: Partial<Ascent>,
+): Promise<Ascent> {
   const data = {
     date: newAscent.date,
     hillID: newAscent.hillID,
@@ -245,12 +241,15 @@ export async function updateAscent(userId: string, newAscent: Partial<Ascent>) {
     });
     return ascent;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error update Ascent Db:", error);
     throw error;
   }
 }
 
-export async function removeUser(userId: string, ascentId: string) {
+export async function removeUser(
+  userId: string,
+  ascentId: string,
+): Promise<Ascent> {
   try {
     const ascent = await prisma.ascent.update({
       where: {
@@ -262,15 +261,15 @@ export async function removeUser(userId: string, ascentId: string) {
     });
     return ascent;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error remove User Db:", error);
     throw error;
   }
 }
 
 export async function disconnectAndDeleteAscent(
   ascentId: string,
-  UserIdsToDisconnect: string[]
-) {
+  UserIdsToDisconnect: string[],
+): Promise<void> {
   try {
     const updates = UserIdsToDisconnect.map((userId) =>
       prisma.ascent.update({
@@ -279,7 +278,7 @@ export async function disconnectAndDeleteAscent(
           pendingGroupMembers: { disconnect: { id: userId } },
           requestedGroupMembers: { disconnect: { id: userId } },
         },
-      })
+      }),
     );
 
     await prisma.$transaction([
@@ -288,7 +287,7 @@ export async function disconnectAndDeleteAscent(
     ]);
     return;
   } catch (error) {
-    console.log(error);
+    sessionLogger.error("error disconnect and delete ascent Db:", error);
     throw error;
   }
 }

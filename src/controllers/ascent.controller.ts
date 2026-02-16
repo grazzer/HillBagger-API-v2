@@ -12,20 +12,9 @@ import {
   getAscentByID,
   disconnectAndDeleteAscent,
 } from "../DataBase/ascentDb.js";
-import { getProfile } from "../DataBase/profileDb.js";
+import { sessionLogger } from "../logging/Loggers.js";
 import type { Ascent } from "@prisma/client";
-
-// TODO: TOLEARN: should these functions check if users exist even if they have a session?
-
-export function accept(req: Request, res: Response, next: NextFunction) {
-  res.locals.acceptUser = true;
-  next();
-}
-
-export function reject(req: Request, res: Response, next: NextFunction) {
-  res.locals.acceptUser = false;
-  next();
-}
+import { error } from "console";
 
 export async function handleCreateAscent(req: Request, res: Response) {
   const newAscent: Partial<Ascent> & { date: Date; hillID: string } = {
@@ -44,6 +33,9 @@ export async function handleCreateAscent(req: Request, res: Response) {
     const ascent = await createAscent(res.locals.userId, newAscent);
     // check if ascent was created
     if (ascent) {
+      sessionLogger.info(
+        `Ascent created: ${ascent.id} by user: ${res.locals.userId}`,
+      );
       res.status(200).json({
         success: true,
         message: "Ascent created successfully",
@@ -67,7 +59,7 @@ export async function handleCreateAscent(req: Request, res: Response) {
       res.locals.userId,
       newAscent.date,
       newAscent.hillID,
-      newAscent.pendingGroupMembersIDs || []
+      newAscent.pendingGroupMembersIDs || [],
     );
 
     // check if similar ascents are found
@@ -81,6 +73,7 @@ export async function handleCreateAscent(req: Request, res: Response) {
     }
     CreateAndRespond();
   } catch (error) {
+    sessionLogger.error(`Error creating ascent: ${error}`);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -91,7 +84,7 @@ export async function handleCreateAscent(req: Request, res: Response) {
 // if similar ascents are found user can request to join existing ascent
 export async function handleRequestJoinExistingAscent(
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<any> {
   try {
     const ascent = await getAscentByID(req.body.ascentId);
@@ -130,7 +123,7 @@ export async function handleRequestJoinExistingAscent(
     }
     const updatedAscent = await requestJoiningAscentGroup(
       res.locals.userId,
-      req.body.ascentId
+      req.body.ascentId,
     );
     // check if user is now a requested member of the ascent
     if (updatedAscent?.requestedGroupMembersIDs.includes(res.locals.userId)) {
@@ -146,6 +139,7 @@ export async function handleRequestJoinExistingAscent(
       message: `unable to join ascent ${req.body.ascentId}`,
     });
   } catch (error) {
+    sessionLogger.error(`Error requesting to join ascent: ${error}`);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -157,7 +151,7 @@ export async function handleRequestJoinExistingAscent(
 // group members responding to requests to join ascent
 export async function handleResponseToUserRequestingToJoinAscent(
   req: Request,
-  res: Response
+  res: Response,
 ) {
   try {
     const ascent = await getAscentByID(req.body.ascentId);
@@ -199,7 +193,7 @@ export async function handleResponseToUserRequestingToJoinAscent(
       res.locals.acceptUser,
       res.locals.userId,
       req.body.ascentId,
-      req.body.requestedUserId
+      req.body.requestedUserId,
     );
     // check if requestedUserId has been added as member of to ascent
     if (updatesAscent?.groupMembersIDs.includes(req.body.requestedUserId)) {
@@ -213,7 +207,7 @@ export async function handleResponseToUserRequestingToJoinAscent(
     // check if requestedUserId has been removed from request list and isn't a member
     if (
       !updatesAscent?.requestedGroupMembersIDs.includes(
-        req.body.requestedUserId
+        req.body.requestedUserId,
       ) &&
       !updatesAscent?.groupMembersIDs.includes(req.body.requestedUserId)
     ) {
@@ -229,6 +223,7 @@ export async function handleResponseToUserRequestingToJoinAscent(
       message: "No changes made to the ascent",
     });
   } catch {
+    sessionLogger.error(`Error responding to join ascent request: ${error}`);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -239,7 +234,7 @@ export async function handleResponseToUserRequestingToJoinAscent(
 // user removing their request to join an ascent
 export async function handleRemoveRequestToJoinAscent(
   req: Request,
-  res: Response
+  res: Response,
 ) {
   try {
     const ascent = await getAscentByID(req.body.ascentId);
@@ -259,7 +254,7 @@ export async function handleRemoveRequestToJoinAscent(
     }
     const updatedAscent = await removeRequestToJoinAscent(
       res.locals.userId,
-      req.body.ascentId
+      req.body.ascentId,
     );
     if (!updatedAscent.requestedGroupMembersIDs.includes(res.locals.userId)) {
       res.status(200).json({
@@ -274,6 +269,7 @@ export async function handleRemoveRequestToJoinAscent(
       message: "No changes made to the ascent",
     });
   } catch (error) {
+    sessionLogger.error(`Error removing request to join ascent: ${error}`);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -284,7 +280,7 @@ export async function handleRemoveRequestToJoinAscent(
 // invited users responding to invitations to join ascent
 export async function handleResponseToUserInvitedToJoinAscent(
   req: Request,
-  res: Response
+  res: Response,
 ) {
   try {
     const ascent = await getAscentByID(req.body.ascentId);
@@ -306,7 +302,7 @@ export async function handleResponseToUserInvitedToJoinAscent(
     const updatedAscent = await updatePendingUserToAscent(
       res.locals.acceptUser,
       res.locals.userId,
-      req.body.ascentId
+      req.body.ascentId,
     );
     if (updatedAscent?.groupMembersIDs.includes(res.locals.userId)) {
       res.status(200).json({
@@ -332,6 +328,7 @@ export async function handleResponseToUserInvitedToJoinAscent(
       message: "No changes made to the ascent",
     });
   } catch {
+    sessionLogger.error(`Error responding to ascent invite: ${error}`);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -370,7 +367,7 @@ export async function handleRemoveInvitedUser(req: Request, res: Response) {
     const updatedAscent = await removePendingUserToAscent(
       res.locals.userId,
       req.body.ascentId,
-      req.body.removeUserId
+      req.body.removeUserId,
     );
     // check if user was removed from invited list
     if (!updatedAscent.pendingGroupMembersIDs.includes(req.body.removeUserId)) {
@@ -386,6 +383,7 @@ export async function handleRemoveInvitedUser(req: Request, res: Response) {
       message: "No changes made to the ascent",
     });
   } catch {
+    sessionLogger.error(`Error removing to ascent invite: ${error}`);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -430,7 +428,6 @@ export async function handleUpdateAscent(req: Request, res: Response) {
       return;
     }
     const updatedAscent = await updateAscent(res.locals.userId, newAscent);
-    console.log(updatedAscent);
     if (updatedAscent != undefined) {
       res.status(200).json({
         success: true,
@@ -444,7 +441,7 @@ export async function handleUpdateAscent(req: Request, res: Response) {
       message: "No changes made to the ascent",
     });
   } catch (error) {
-    console.log(error);
+    sessionLogger.error(`Error updating ascent: ${error}`);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -475,11 +472,12 @@ export async function handleLeaveAscent(req: Request, res: Response) {
 
     const removedAscent = await removeUser(
       res.locals.userId,
-      req.body.ascentId
+      req.body.ascentId,
     );
     // check user was if last member of the ascent
     if (removedAscent.groupMembersIDs.length == 0) {
       await CleanDeleteAscent(req.body.ascentId, ascent);
+      sessionLogger.info(`Ascent deleted: ${req.body.ascentId}`);
       res.status(200).json({
         success: true,
         message: "you have left the ascent and the was ascent deleted",
@@ -499,6 +497,7 @@ export async function handleLeaveAscent(req: Request, res: Response) {
       message: "could not remove user from ascent",
     });
   } catch (error) {
+    sessionLogger.error(`Error leaving ascent: ${error}`);
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -513,10 +512,13 @@ async function CleanDeleteAscent(ascentId: string, ascent: Ascent) {
       new Set([
         ...(ascent.pendingGroupMembersIDs ?? []),
         ...(ascent.requestedGroupMembersIDs ?? []),
-      ])
+      ]),
     );
 
     await disconnectAndDeleteAscent(ascentId, UserIdsToDisconnect);
     return;
-  } catch (error) {}
+  } catch (error) {
+    sessionLogger.error(`Error deleting ascent: ${error}`);
+    return;
+  }
 }

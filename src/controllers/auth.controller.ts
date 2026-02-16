@@ -47,7 +47,7 @@ export async function handleAccessValidation(
   try {
     // check if token exists
     if (!accessToken) {
-      res.status(400).json({
+      res.status(401).json({
         success: false,
         message: "No access token provided",
       });
@@ -165,7 +165,7 @@ export async function handleUserLogin(req: Request, res: Response) {
       data: userData,
     });
   } catch (error) {
-    logger.error("Error userLogin:", error);
+    logger.error("Error user Login:", error);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
