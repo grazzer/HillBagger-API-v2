@@ -463,8 +463,6 @@ describe("unblock User", () => {
     const res = await agentA.delete("/session/friend/unblockUser").send({
       blockUserId: userB.id,
     });
-    console.log(res.body.error);
-    console.log(res.body);
     expect(res.status).toBe(200);
     expect(res.body.message).toBe("user unblocked");
     expect(res.body.data.blockedUserIDs).not.toEqual(
