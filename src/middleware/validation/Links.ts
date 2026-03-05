@@ -1,20 +1,42 @@
 import { body } from "express-validator";
 
-export const email = body("email")
+export const validateEmail = body("email")
   .notEmpty()
   .withMessage("Email is required")
   .isEmail()
   .withMessage("Invalid email format");
 
-export const name = body("name")
-  .notEmpty()
-  .withMessage("Name must be at least 1 character long");
+export const validateName = (nameField: string) =>
+  body(nameField)
+    .notEmpty()
+    .withMessage(`${nameField} is required`)
+    .isString()
+    .withMessage(`${nameField} must be a string`)
+    .isAlpha("en-US", { ignore: "\s" })
+    .withMessage(`${nameField} must not contain any numerical characters`);
 
 export const validateID = (IdName: string) =>
   body(IdName)
     .notEmpty()
     .withMessage(`${IdName} is required`)
-    .isHexadecimal()
-    .withMessage(`${IdName} must be a hexadecimal string`)
-    .isByteLength({ min: 24, max: 24 })
-    .withMessage(`${IdName} must be 24 bytes long`);
+    .isMongoId()
+    .withMessage(`${IdName} must be a 24 character hexadecimal id`);
+
+export const validateIDOptional = (IdName: string) =>
+  body(IdName)
+    .optional({ nullable: true, checkFalsy: true })
+    .isMongoId()
+    .withMessage(`${IdName} must be a 24 character hexadecimal id`);
+
+export const validateDate = (dateName: string) =>
+  body(dateName)
+    .notEmpty()
+    .withMessage(`${dateName} is required`)
+    .isISO8601()
+    .withMessage(`${dateName} must be a valid date`);
+
+export const validateDateOptional = (dateName: string) =>
+  body(dateName)
+    .optional({ nullable: true, checkFalsy: true })
+    .isISO8601()
+    .withMessage(`${dateName} must be a valid date`);

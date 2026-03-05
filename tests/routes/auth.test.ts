@@ -193,9 +193,7 @@ function nameVal(url: string) {
         })
         .then((response) => {
           expect(response.status).toBe(422);
-          expect(response.body.errors[0].msg).toEqual(
-            "Name must be at least 1 character long",
-          );
+          expect(response.body.errors[0].msg).toEqual("name is required");
         });
     });
   });

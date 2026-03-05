@@ -1,13 +1,9 @@
 import { body } from "express-validator";
 import { ObjectId } from "mongodb";
-import { validateID } from "./Links.js";
+import { validateDate, validateID } from "./Links.js";
 
 const validateAscent = [
-  body("date")
-    .notEmpty()
-    .withMessage("Date is required")
-    .isISO8601()
-    .withMessage("date must be a valid date"),
+  validateDate("date"),
   validateID("hillID"),
   body("time").optional().isNumeric().withMessage("time must be a number"),
   body("weather")
@@ -44,14 +40,8 @@ const validateAscent = [
         }
       });
     }),
-
-  // body("pendingGroupMembersIDs")
-  //   .optional()
-  //   .isString()
-  //   .withMessage("pendingGroupMembersIDs must be a string"),
 ];
 
-//TODO:
 export const ValidateCreateAscent = validateAscent;
 
 export const ValidateJoinRequest = [validateID("ascentId")];
@@ -70,7 +60,6 @@ export const ValidateRemoveInvitedUser = [
   validateID("removeUserId"),
 ];
 
-// TODO:
 export const ValidateUpdateAscent = [validateID("ascentId"), ...validateAscent];
 
 export const ValidateLeaveAscent = [validateID("ascentId")];

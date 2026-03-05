@@ -147,7 +147,6 @@ export async function handleRequestJoinExistingAscent(
   }
 }
 
-// TODO: TOLEARN:
 // group members responding to requests to join ascent
 export async function handleResponseToUserRequestingToJoinAscent(
   req: Request,
@@ -179,16 +178,7 @@ export async function handleResponseToUserRequestingToJoinAscent(
       });
       return;
     }
-    // TODO: TOLEARN: should we check if requestedUserId exists?
-    // // check user to join exists
-    // const profile = await getProfile(req.body.requestedUserId);
-    // if (!profile) {
-    //   res.status(404).json({
-    //     success: false,
-    //     message: `the user requesting to join cannot be found`,
-    //   });
-    //   return;
-    // }
+
     const updatesAscent = await updateRequestedUserToAscent(
       res.locals.acceptUser,
       res.locals.userId,

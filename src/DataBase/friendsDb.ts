@@ -2,19 +2,6 @@ import { User } from "@prisma/client";
 import { prisma } from "./connectDb.js";
 import { sessionLogger } from "../logging/Loggers.js";
 
-// for internal use only for checking blocked users and friend request lists
-export async function getUserById(userId: any): Promise<User | null> {
-  try {
-    const user = await prisma.user.findFirst({
-      where: { id: userId },
-    });
-    return user;
-  } catch (error) {
-    sessionLogger.error("error getUserById", error);
-    throw error;
-  }
-}
-
 export async function connectFriend(
   userId: string,
   friendId: string,

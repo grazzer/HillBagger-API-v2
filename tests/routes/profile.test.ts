@@ -1,6 +1,7 @@
 import request from "supertest";
 import { app } from "../../src/app.js";
 import { Ascent } from "@prisma/client";
+import { getAscentByID } from "../../src/DataBase/ascentDb.js";
 
 let agentA = request.agent(app);
 let agentB = request.agent(app);
@@ -136,12 +137,10 @@ describe("Delete user", () => {
     const deleteRes = await agentA.delete("/session/profile/deleteUser");
     expect(deleteRes.status).toBe(200);
     // check results
-    const checkRes = await request(app).get("/getAscent/byId").send({
-      ascentId: profileAscentA.id,
-    });
-    expect(checkRes.status).toBe(200);
-    expect(checkRes.body.message).toEqual("Ascent successfully found");
-    expect(checkRes.body.data.requestedGroupMembersIDs).toEqual([]);
+    const checkRes = await getAscentByID(resAscent.body.data.id);
+
+    expect(checkRes?.id).toEqual(profileAscentA.id);
+    expect(checkRes?.requestedGroupMembersIDs).toEqual([]);
   });
   it("with ascent pending", async () => {
     // setup
@@ -159,13 +158,12 @@ describe("Delete user", () => {
     // test
     const deleteRes = await agentA.delete("/session/profile/deleteUser");
     expect(deleteRes.status).toBe(200);
+
     // check results
-    const checkRes = await request(app).get("/getAscent/byId").send({
-      ascentId: profileAscentA.id,
-    });
-    expect(checkRes.status).toBe(200);
-    expect(checkRes.body.message).toEqual("Ascent successfully found");
-    expect(checkRes.body.data.pendingGroupMembersIDs).toEqual([]);
+    const checkRes = await getAscentByID(resAscent.body.data.id);
+
+    expect(checkRes?.id).toEqual(profileAscentA.id);
+    expect(checkRes?.pendingGroupMembersIDs).toEqual([]);
   });
   it("with ascent solo membership", async () => {
     // setup
@@ -178,11 +176,8 @@ describe("Delete user", () => {
     const deleteRes = await agentA.delete("/session/profile/deleteUser");
     expect(deleteRes.status).toBe(200);
     // check results
-    const checkRes = await request(app).get("/getAscent/byId").send({
-      ascentId: profileAscentA.id,
-    });
-    expect(checkRes.status).toEqual(404);
-    expect(checkRes.body.message).toEqual("ascent not found");
+    const checkRes = await getAscentByID(resAscent.body.data.id);
+    expect(checkRes).toEqual(null);
   });
   it("with multiple member ascent", async () => {
     // setup
@@ -199,12 +194,8 @@ describe("Delete user", () => {
     const deleteRes = await agentA.delete("/session/profile/deleteUser");
     expect(deleteRes.status).toBe(200);
     // check results
-    const checkRes = await request(app).get("/getAscent/byId").send({
-      ascentId: profileAscentA.id,
-    });
-    expect(checkRes.status).toBe(200);
-    expect(checkRes.body.message).toEqual("Ascent successfully found");
-    expect(checkRes.body.data.groupMembersIDs).toEqual([profileUserB.id]);
+    const checkRes = await getAscentByID(resAscent.body.data.id);
+    expect(checkRes?.groupMembersIDs).toEqual([profileUserB.id]);
   });
   it("with ascent solo membership, then create user with same credentials, should return 200", async () => {
     // setup

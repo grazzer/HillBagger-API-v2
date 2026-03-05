@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { getProfile, disconnectAndDeleteUser } from "../DataBase/profileDb.js";
 import { getAscentByID } from "../DataBase/ascentDb.js";
-import { getUserById } from "../DataBase/userDb.js";
 import { Ascent, User } from "@prisma/client";
 import { logger, sessionLogger } from "../logging/Loggers.js";
 
@@ -65,14 +64,6 @@ export async function HandleDeleteUser(req: Request, res: Response) {
   }
 }
 
-// TODO: not implemented yet
-
-// TODO: create forgot password flow once researched
-export async function HandleForgotPassword(req: Request, res: Response) {}
-
-// TODO: update function when changeable details are decided
-export async function HandleUpdateUserInfo(req: Request, res: Response) {}
-
 // helper function to cleanly delete a user and all its relations
 async function CleanAndDeleteUser(userId: string, user: Partial<User>) {
   try {
@@ -84,8 +75,8 @@ async function CleanAndDeleteUser(userId: string, user: Partial<User>) {
     // find which ascents only contain user as member
     if (ascentMemberIds.length >= 1) {
       for (const ascentId of ascentMemberIds) {
-        const ascent: Ascent = await getAscentByID(ascentId);
-        if (ascent.groupMembersIDs?.length == 1) {
+        const ascent: Ascent | null = await getAscentByID(ascentId);
+        if (ascent?.groupMembersIDs?.length == 1) {
           ascentIdsToDelete.push(ascentId);
         } else {
           ascentIdsToLeave.push(ascentId);
@@ -99,8 +90,8 @@ async function CleanAndDeleteUser(userId: string, user: Partial<User>) {
         const ascent = await getAscentByID(ascentId);
         const usersInAscentToDisconnect: string[] = Array.from(
           new Set([
-            ...(ascent.pendingGroupMembersIDs ?? []),
-            ...(ascent.requestedGroupMembersIDs ?? []),
+            ...(ascent?.pendingGroupMembersIDs ?? []),
+            ...(ascent?.requestedGroupMembersIDs ?? []),
           ]),
         );
         const info: ascentInfo = {

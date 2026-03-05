@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import {
-  getUserById,
   connectFriend,
   requestFriendConnection,
   requestFriendDisconnection,
@@ -9,6 +8,7 @@ import {
   removeBlockedUser,
 } from "../DataBase/friendsDb.js";
 import { sessionLogger } from "../logging/Loggers.js";
+import { getProfile } from "../DataBase/profileDb.js";
 
 // send a friend request
 export async function HandleFriendRequest(req: Request, res: Response) {
@@ -23,7 +23,7 @@ export async function HandleFriendRequest(req: Request, res: Response) {
     return;
   }
   try {
-    const friend = await getUserById(friendId);
+    const friend = await getProfile(friendId);
     // check friend exists
     if (!friend) {
       res.status(404).json({
@@ -48,7 +48,7 @@ export async function HandleFriendRequest(req: Request, res: Response) {
       });
       return;
     }
-    const user = await getUserById(userId);
+    const user = await getProfile(userId);
     // check if user is not blocking friend
     if (user?.blockedUserIDs.includes(friendId)) {
       res.status(403).json({
@@ -88,7 +88,7 @@ export async function HandleFriendRequestResponse(req: Request, res: Response) {
     const { userId, acceptUser } = res.locals;
 
     // check friend exists
-    const friend = await getUserById(friendId);
+    const friend = await getProfile(friendId);
     if (!friend) {
       res.status(404).json({
         success: false,
@@ -179,7 +179,7 @@ export async function HandleRemoveFriend(req: Request, res: Response) {
     const { friendId } = req.body;
     const userId = res.locals.userId;
 
-    const friend = await getUserById(friendId);
+    const friend = await getProfile(friendId);
     if (!friend) {
       res.status(404).json({
         success: true,
@@ -224,7 +224,7 @@ export async function HandleBlockUser(req: Request, res: Response) {
       return;
     }
 
-    const user = await getUserById(userId);
+    const user = await getProfile(userId);
     // check if user is already blocked
     const index = user?.blockedUserIDs.findIndex(
       (ID: string) => ID === req.body.blockUserId,
@@ -238,7 +238,7 @@ export async function HandleBlockUser(req: Request, res: Response) {
     }
 
     // check user to block exists
-    const userToBlock = await getUserById(blockUserId);
+    const userToBlock = await getProfile(blockUserId);
     if (!userToBlock) {
       res.status(404).json({
         success: false,
@@ -284,7 +284,7 @@ export async function HandleUnblockUser(req: Request, res: Response) {
       return;
     }
 
-    const user = await getUserById(res.locals.userId);
+    const user = await getProfile(res.locals.userId);
     if (!user) {
       sessionLogger.error("authenticated user not found");
       new Error("authenticated in user not found");

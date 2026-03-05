@@ -4,8 +4,8 @@ async function main(
   whereQuery: any,
   orderQuery: any,
   skip: number,
-  take: number
-) {
+  take: number,
+): Promise<{ hills: any[]; count: number }> {
   try {
     const [paginatedResults, totalCount] = await prisma.$transaction([
       prisma.hills.findMany({
@@ -21,7 +21,7 @@ async function main(
 
     return { hills: paginatedResults, count: totalCount };
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 

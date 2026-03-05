@@ -2,7 +2,7 @@ import { sessionLogger } from "../logging/Loggers.js";
 import { prisma } from "./connectDb.js";
 import type { Ascent } from "@prisma/client";
 
-export async function getAscentByID(ascentId: string): Promise<any> {
+export async function getAscentByID(ascentId: string): Promise<Ascent | null> {
   try {
     const ascent = await prisma.ascent.findFirst({
       where: {
@@ -12,6 +12,7 @@ export async function getAscentByID(ascentId: string): Promise<any> {
     return ascent;
   } catch (error) {
     sessionLogger.error("error getUserById Db:", error);
+    throw error;
   }
 }
 

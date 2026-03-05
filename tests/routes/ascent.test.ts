@@ -141,7 +141,7 @@ describe("create new Ascent", () => {
       hillID: ascentMinimal.hillID,
     });
     expect(response.status).toBe(422);
-    expect(response.body.errors[0].msg).toEqual("Date is required");
+    expect(response.body.errors[0].msg).toEqual("date is required");
   });
   it("with wrong date type, should return 422", async () => {
     const response = await agentA.post("/session/ascent/create").send({
@@ -172,7 +172,9 @@ describe("create new Ascent", () => {
       date: ascentMinimal.date,
     });
     expect(response.status).toBe(422);
-    expect(response.body.errors[0].msg).toEqual("hillID must be 24 bytes long");
+    expect(response.body.errors[0].msg).toEqual(
+      "hillID must be a 24 character hexadecimal id",
+    );
   });
   describe("with correct data and hillId data,", () => {
     it("but incorrect time format (string), should return 422", async () => {
